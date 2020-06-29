@@ -57,9 +57,10 @@ Function Get-Extension() {
     if ($extension -eq "pcov") {
         Copy-Item -Path .github\scripts\pcov.config.w32 -Destination $ext_dir\config.w32 -Force
     }
-    elseif ($extension -eq "xdebug")
-    {
-        Copy-Item -Path .github\scripts\xdebug.stack.c -Destination $ext_dir\src\base\stack.c -Force
+    elseif ($extension -eq "xdebug") {
+        ForEach ($file in Get-ChildItem $ext_dir -Include *.c, *.h -Recurse | where { ! $_.PSIsContainer }) {
+            (Get-Content $file.PSPath) | Foreach-Object { $_ -replace "syslog", "php_syslog" } | Set-Content $file.PSPath
+        }
     }
 }
 
