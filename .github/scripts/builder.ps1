@@ -58,7 +58,7 @@ Function Get-Extension() {
         Copy-Item -Path .github\scripts\pcov.config.w32 -Destination $ext_dir\config.w32 -Force
     }
     elseif ($extension -eq "xdebug") {
-        ForEach ($file in Get-ChildItem $ext_dir -Include *.c, *.h -Recurse | where { ! $_.PSIsContainer }) {
+        ForEach ($file in Get-ChildItem $ext_dir -Include *.c, *.h -Recurse | Where-Object { ! $_.PSIsContainer }) {
             (Get-Content $file.PSPath) | Foreach-Object { $_ -replace "syslog", "php_syslog" } | Set-Content $file.PSPath
         }
     }
@@ -146,7 +146,7 @@ $ext_dir = "C:\projects\$extension"
 $github = "https://github.com"
 $trunk = "https://windows.php.net/downloads/snaps/master"
 $php_version = Invoke-RestMethod https://raw.githubusercontent.com/php/php-src/master/main/php_version.h | Where-Object { $_  -match 'PHP_VERSION "(.*)"' } | Foreach-Object {$Matches[1]}
-$build_sha = "r" + (Invoke-RestMethod $trunk/master.json).revision_last_exported
+$build_sha = (Invoke-Webrequest $trunk).Content | Select-String -Pattern '">(r[0-9a-zA-Z]+)<' -AllMatches | ForEach-Object {$_.Matches} | Select-Object -SkipLast 1 | Select-Object -Last 1 | ForEach-Object {$_.Groups[1].Value}
 
 $package_zip = "php-sdk-$sdk_version.zip"
 $tmp_dir = "php-sdk-binary-tools-php-sdk-$sdk_version"
