@@ -122,10 +122,12 @@ Function New-Extension() {
         [string]
         $ts
     )
-    $package_zip = "php-devel-pack-master$ts-windows-$vs-$arch-$build_sha.zip"
+    #$package_zip = "php-devel-pack-master$ts-windows-$vs-$arch-$build_sha.zip"
+    $package_zip = "php-devel-pack-master$ts-windows-$vs-$arch.zip"
     $tmp_dir = "php-$php_version-devel-$vs-$arch"
     $package_dir = "php-$php_version$ts-devel-$vs-$arch"
-    $url = "$trunk/$build_sha/$package_zip"
+    #$url = "$trunk/$build_sha/$package_zip"
+    $url = "$trunk/$package_zip"
     Get-Package $package_zip $url $tmp_dir $package_dir
 
     Set-Location $ext_dir
@@ -139,9 +141,10 @@ Function New-Extension() {
 $cache_dir = "C:\build-cache"
 $ext_dir = "C:\projects\$extension"
 $github = "https://github.com"
-$trunk = "https://windows.php.net/downloads/snaps/master"
+#$trunk = "https://windows.php.net/downloads/snaps/master"
+$trunk = "https://dl.bintray.com/shivammathur/php"
 $php_version = Invoke-RestMethod https://raw.githubusercontent.com/php/php-src/master/main/php_version.h | Where-Object { $_  -match 'PHP_VERSION "(.*)"' } | Foreach-Object {$Matches[1]}
-$build_sha = (Invoke-Webrequest $trunk).Content | Select-String -Pattern '">(r[0-9a-zA-Z]+)<' -AllMatches | ForEach-Object {$_.Matches} | Select-Object -SkipLast 1 | Select-Object -Last 1 | ForEach-Object {$_.Groups[1].Value}
+#$build_sha = (Invoke-Webrequest $trunk).Content | Select-String -Pattern '">(r[0-9a-zA-Z]+)<' -AllMatches | ForEach-Object {$_.Matches} | Select-Object -SkipLast 1 | Select-Object -Last 1 | ForEach-Object {$_.Groups[1].Value}
 
 $package_zip = "php-sdk-$sdk_version.zip"
 $tmp_dir = "php-sdk-binary-tools-php-sdk-$sdk_version"
