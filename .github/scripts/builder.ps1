@@ -143,7 +143,7 @@ $ext_dir = "C:\projects\$extension"
 $github = "https://github.com"
 #$trunk = "https://windows.php.net/downloads/snaps/master"
 $trunk = "https://dl.bintray.com/shivammathur/php"
-$php_version = Invoke-RestMethod https://raw.githubusercontent.com/php/php-src/master/main/php_version.h | Where-Object { $_  -match 'PHP_VERSION "(.*)"' } | Foreach-Object {$Matches[1]}
+$php_version = Invoke-RestMethod "https://raw.githubusercontent.com/php/php-src/PHP-8.0/main/php_version.h" | Where-Object { $_  -match 'PHP_VERSION "(.*)"' } | Foreach-Object {$Matches[1]}
 #$build_sha = (Invoke-Webrequest $trunk).Content | Select-String -Pattern '">(r[0-9a-zA-Z]+)<' -AllMatches | ForEach-Object {$_.Matches} | Select-Object -SkipLast 1 | Select-Object -Last 1 | ForEach-Object {$_.Groups[1].Value}
 
 $package_zip = "php-sdk-$sdk_version.zip"
