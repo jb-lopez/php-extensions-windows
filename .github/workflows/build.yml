@@ -11,6 +11,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
+        php: ['8.0', '8.1']
         extensions: [pcov, xdebug]
         sdk_version: [master]
         vs: [vs16]
@@ -28,25 +29,25 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: build
-      run: pwsh .github/scripts/builder.ps1 ${{ matrix.extensions }} ${{ matrix.repo }} ${{ matrix.branch }} ${{ matrix.args }} ${{ matrix.sdk_version }} ${{ matrix.vs }} ${{ matrix.arch }} ${{ matrix.ts }}
+      run: pwsh .github/scripts/builder.ps1 ${{ matrix.extensions }} ${{ matrix.repo }} ${{ matrix.branch }} ${{ matrix.args }} ${{ matrix.sdk_version }} ${{ matrix.vs }} ${{ matrix.arch }} ${{ matrix.ts }} ${{ matrix.php }}
     - name: Copy
       run: |
         mkdir ${{ matrix.extensions }}
         if(Test-Path C:\projects\${{ matrix.extensions }}\Release\php_${{ matrix.extensions }}.dll) {
           write-Output "copy x86 nts"
-          Copy-Item -Path C:\projects\${{ matrix.extensions }}\Release\php_${{ matrix.extensions }}.dll -Destination ${{ matrix.extensions }}\php_nts_x86_${{ matrix.extensions }}.dll
+          Copy-Item -Path C:\projects\${{ matrix.extensions }}\Release\php_${{ matrix.extensions }}.dll -Destination ${{ matrix.extensions }}\php${{ matrix.php }}_nts_x86_${{ matrix.extensions }}.dll
         }
         if(Test-Path C:\projects\${{ matrix.extensions }}\Release_TS\php_${{ matrix.extensions }}.dll) {
           write-Output "copy x86 ts"
-          Copy-Item -Path C:\projects\${{ matrix.extensions }}\Release_TS\php_${{ matrix.extensions }}.dll -Destination ${{ matrix.extensions }}\php_ts_x86_${{ matrix.extensions }}.dll
+          Copy-Item -Path C:\projects\${{ matrix.extensions }}\Release_TS\php_${{ matrix.extensions }}.dll -Destination ${{ matrix.extensions }}\php${{ matrix.php }}_ts_x86_${{ matrix.extensions }}.dll
         }
         if(Test-Path C:\projects\${{ matrix.extensions }}\x64\Release\php_${{ matrix.extensions }}.dll) {
           write-Output "copy x64 nts"
-          Copy-Item -Path C:\projects\${{ matrix.extensions }}\x64\Release\php_${{ matrix.extensions }}.dll -Destination ${{ matrix.extensions }}\php_nts_x64_${{ matrix.extensions }}.dll
+          Copy-Item -Path C:\projects\${{ matrix.extensions }}\x64\Release\php_${{ matrix.extensions }}.dll -Destination ${{ matrix.extensions }}\php${{ matrix.php }}_nts_x64_${{ matrix.extensions }}.dll
         }
         if(Test-Path C:\projects\${{ matrix.extensions }}\x64\Release_TS\php_${{ matrix.extensions }}.dll) {
           write-Output "copy x64 ts"
-          Copy-Item -Path C:\projects\${{ matrix.extensions }}\x64\Release_TS\php_${{ matrix.extensions }}.dll -Destination ${{ matrix.extensions }}\php_ts_x64_${{ matrix.extensions }}.dll
+          Copy-Item -Path C:\projects\${{ matrix.extensions }}\x64\Release_TS\php_${{ matrix.extensions }}.dll -Destination ${{ matrix.extensions }}\php${{ matrix.php }}_ts_x64_${{ matrix.extensions }}.dll
         }
     - name: Upload Artifact
       uses: actions/upload-artifact@v2
