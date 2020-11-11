@@ -68,11 +68,9 @@ jobs:
         set -x
         assets=()
         for asset in ./ext/*/*.dll; do
-          assets+=("-a" "$asset")
+          assets+=("$asset")
         done
-        time=$(date '+%Y-%m-%d %H:%M:%S')
-        git push -f origin :1.0.0 || true
-        hub release delete "1.0.0" || true
-        hub release create "${assets[@]}" -m "$time" "1.0.0"
+        gh release delete "builds" -y || true
+        gh release create "builds" "${assets[@]}" -t "builds" -n "builds"
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
