@@ -137,7 +137,7 @@ Function New-Extension() {
 $cache_dir = "C:\build-cache"
 $ext_dir = "C:\projects\$extension"
 $github = "https://github.com"
-$trunk = "https://dl.bintray.com/shivammathur/php"
+$trunk = "https://github.com/shivammathur/php-builder-windows/releases/download/php$php"
 $php_branch = 'master'
 if($php -eq '8.0') {
     $php_branch = 'PHP-8.0'
