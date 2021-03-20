@@ -18,7 +18,7 @@ param (
     [ValidateNotNull()]
     [ValidateLength(1, [int]::MaxValue)]
     [string]
-    $args,
+    $config_args,
     [Parameter(Position = 4, Mandatory = $true)]
     [ValidateNotNull()]
     [ValidateLength(1, [int]::MaxValue)]
@@ -56,9 +56,6 @@ Function Cleanup() {
 
 Function Get-Extension() {
     git clone --branch=$branch $github/$repo.git $ext_dir
-    if ($extension -eq "pcov") {
-        Copy-Item -Path .github\scripts\pcov.config.w32 -Destination $ext_dir\config.w32 -Force
-    }
 }
 
 Function Get-Package {
@@ -90,7 +87,9 @@ Function Get-Package {
 
     if (-not (Test-Path $package_dir)) {
         Expand-Archive -Path $cache_dir\$package -DestinationPath $cache_dir -Force
-        Move-Item -Path $cache_dir\$tmp_dir $cache_dir\$package_dir
+        if($tmp_dir -ne $package_dir) {
+            Rename-Item -Path $cache_dir\$tmp_dir -NewName $package_dir -Force
+        }
     }
 }
 
@@ -105,24 +104,48 @@ Function Add-TaskFile() {
     $bat_content = @()
     $bat_content += ""
     $bat_content += "call phpize 2>&1"
-    $bat_content += "call configure --$args --enable-debug-pack 2>&1"
+    $bat_content += "call configure --$config_args --enable-debug-pack 2>&1"
     $bat_content += "nmake /nologo 2>&1"
     $bat_content += "exit %errorlevel%"
     Set-Content -Encoding "ASCII" -Path $filename -Value $bat_content
 }
 
-Function New-Extension() {
-    param (
-        [Parameter(Position = 0, Mandatory = $true)]
-        [string]
-        $arch,
-        [Parameter(Position = 1, Mandatory = $false)]
-        [string]
-        $ts = ''
-    )
-    $package_zip = "php-devel-pack-$php_version$ts-Win32-$vs-$arch.zip"
+Function Get-TSPath() {
+    if($ts -eq 'nts') {
+        return '-nts'
+    }
+
+    return ''
+}
+
+Function Get-ReleaseDirectory() {
+    $arch_path = ''
+    if($arch -eq 'x64') {
+        $arch_path = 'x64'
+    }
+
+    $release_path = 'Release'
+    if($ts -eq 'ts') {
+        $release_path = 'Release_TS'
+    }
+
+    return [IO.Path]::Combine($arch_path, $release_path)
+}
+
+Function Get-PHPBranch() {
+    $php_branch = 'master'
+    if($php -ne $nightly_version) {
+        $php_branch = "PHP-$php"
+    }
+
+    return $php_branch
+}
+
+Function Build-Extension() {
+    $ts_path = Get-TSPath
+    $package_zip = "php-devel-pack-$php_version$ts_path-Win32-$vs-$arch.zip"
     $tmp_dir = "php-$php_version-devel-$vs-$arch"
-    $package_dir = "php-$php_version$ts-devel-$vs-$arch"
+    $package_dir = "php-$php_version$ts_path-devel-$vs-$arch"
     $url = "$trunk/$package_zip"
     Get-Package $package_zip $url $tmp_dir $package_dir
 
@@ -134,19 +157,27 @@ Function New-Extension() {
     & $builder -t $task
 }
 
+Function Copy-Extension() {
+    Set-Location $workspace
+    New-Item -Path $extension -ItemType "directory"
+    $release_dir = Get-ReleaseDirectory
+    $ext_path = [IO.Path]::Combine($ext_dir, $release_dir, "php_$extension.dll")
+    Write-Output "Extension Path: $ext_path"
+    if(Test-Path $ext_path) {
+        Copy-Item -Path $ext_path -Destination "$extension\php$php`_$ts`_$arch`_$extension.dll"
+        Get-ChildItem $extension
+    } else {
+        exit 1
+    }
+}
+
+$workspace = (Get-Location).Path
 $cache_dir = "C:\build-cache"
 $ext_dir = "C:\projects\$extension"
 $github = "https://github.com"
-$trunk = "https://github.com/shivammathur/php-builder-windows/releases/download/php$php"
-$php_branch = 'master'
-if($php -eq '8.0') {
-    $php_branch = 'PHP-8.0'
-}
-if($ts -eq 'ts') {
-    $ts = ''
-} elseif($ts -eq 'nts') {
-    $ts = '-nts'
-}
+$trunk = "$github/shivammathur/php-builder-windows/releases/download/php$php"
+$nightly_version = '8.1'
+$php_branch = Get-PHPBranch
 $php_version = Invoke-RestMethod "https://raw.githubusercontent.com/php/php-src/$php_branch/main/php_version.h" | Where-Object { $_  -match 'PHP_VERSION "(.*)"' } | Foreach-Object {$Matches[1]}
 $package_zip = "php-sdk-$sdk_version.zip"
 $tmp_dir = "php-sdk-binary-tools-php-sdk-$sdk_version"
@@ -159,4 +190,5 @@ $url = "$github/microsoft/php-sdk-binary-tools/archive/$package_zip"
 Cleanup
 Get-Package $package_zip $url $tmp_dir $package_dir
 Get-Extension
-New-Extension $arch "$ts"
+Build-Extension
+Copy-Extension

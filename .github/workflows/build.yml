@@ -29,25 +29,11 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: build
-      run: pwsh .github/scripts/builder.ps1 ${{ matrix.extensions }} ${{ matrix.repo }} ${{ matrix.branch }} ${{ matrix.args }} ${{ matrix.sdk_version }} ${{ matrix.vs }} ${{ matrix.arch }} ${{ matrix.ts }} ${{ matrix.php }}
-    - name: Copy
       run: |
-        mkdir ${{ matrix.extensions }}
-        if(Test-Path C:\projects\${{ matrix.extensions }}\Release\php_${{ matrix.extensions }}.dll) {
-          write-Output "copy x86 nts"
-          Copy-Item -Path C:\projects\${{ matrix.extensions }}\Release\php_${{ matrix.extensions }}.dll -Destination ${{ matrix.extensions }}\php${{ matrix.php }}_nts_x86_${{ matrix.extensions }}.dll
-        }
-        if(Test-Path C:\projects\${{ matrix.extensions }}\Release_TS\php_${{ matrix.extensions }}.dll) {
-          write-Output "copy x86 ts"
-          Copy-Item -Path C:\projects\${{ matrix.extensions }}\Release_TS\php_${{ matrix.extensions }}.dll -Destination ${{ matrix.extensions }}\php${{ matrix.php }}_ts_x86_${{ matrix.extensions }}.dll
-        }
-        if(Test-Path C:\projects\${{ matrix.extensions }}\x64\Release\php_${{ matrix.extensions }}.dll) {
-          write-Output "copy x64 nts"
-          Copy-Item -Path C:\projects\${{ matrix.extensions }}\x64\Release\php_${{ matrix.extensions }}.dll -Destination ${{ matrix.extensions }}\php${{ matrix.php }}_nts_x64_${{ matrix.extensions }}.dll
-        }
-        if(Test-Path C:\projects\${{ matrix.extensions }}\x64\Release_TS\php_${{ matrix.extensions }}.dll) {
-          write-Output "copy x64 ts"
-          Copy-Item -Path C:\projects\${{ matrix.extensions }}\x64\Release_TS\php_${{ matrix.extensions }}.dll -Destination ${{ matrix.extensions }}\php${{ matrix.php }}_ts_x64_${{ matrix.extensions }}.dll
+        pwsh scripts/builder.ps1 ${{ matrix.extensions }} ${{ matrix.repo }} ${{ matrix.branch }} ${{ matrix.args }} ${{ matrix.sdk_version }} ${{ matrix.vs }} ${{ matrix.arch }} ${{ matrix.ts }} ${{ matrix.php }}
+        $exit_code = $?
+        if(-not($exit_code)) {
+          exit $exit_code
         }
     - name: Upload Artifact
       uses: actions/upload-artifact@v2
@@ -70,7 +56,10 @@ jobs:
         for asset in ./ext/*/*.dll; do
           assets+=("$asset")
         done
-        gh release delete "builds" -y || true
-        gh release create "builds" "${assets[@]}" -t "builds" -n "builds"
+        if ! gh release view builds; then
+          gh release create "builds" "${assets[@]}" -t "builds" -n "builds"
+        else
+          gh release upload "builds" "${assets[@]}" --clobber
+        fi
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

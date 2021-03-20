@@ -9,7 +9,6 @@
 The code in this project is licensed under the [MIT license](http://choosealicense.com/licenses/mit/).
 Please see the [license file](LICENSE) for more information. This project has multiple [dependencies](#dependencies "Dependencies for this Homebrew tap"). Their licenses can be found in their respective repositories.
 
-
 ## Dependencies
 
 - [PCOV](https://github.com/krakjoe/pcov "PCOV Upstream")
