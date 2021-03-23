@@ -20,7 +20,7 @@ jobs:
         include:
           - extensions: pcov
             repo: krakjoe/pcov
-            branch: develop
+            branch: release
             args: enable-pcov
           - extensions: xdebug
             repo: xdebug/xdebug
