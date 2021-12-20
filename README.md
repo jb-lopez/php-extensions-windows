@@ -11,5 +11,7 @@ Please see the [license file](LICENSE) for more information. This project has mu
 
 ## Dependencies
 
+- [php-builder-windows](https://github.com/shivammathur/php-builder-windows "PHP Snapshots")
+- [php-sdk-binary-tools](https://github.com/php/php-sdk-binary-tools "PHP SDK Binary tools")
 - [PCOV](https://github.com/krakjoe/pcov "PCOV Upstream")
 - [Xdebug](https://github.com/xdebug/xdebug "Xdebug Upstream")

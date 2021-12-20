@@ -186,7 +186,7 @@ if($sdk_version -eq 'master') {
     $tmp_dir = "php-sdk-binary-tools-master"
 }
 $package_dir = "php-sdk-$sdk_version"
-$url = "$github/microsoft/php-sdk-binary-tools/archive/$package_zip"
+$url = "$github/php/php-sdk-binary-tools/archive/$package_zip"
 Cleanup
 Get-Package $package_zip $url $tmp_dir $package_dir
 Get-Extension
