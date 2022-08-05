@@ -23,8 +23,8 @@ jobs:
             branch: release
             args: enable-pcov
           - extensions: xdebug
-            repo: shivammathur/xdebug
-            branch: fix-jmpznz
+            repo: xdebug/xdebug
+            branch: master
             args: with-xdebug
     steps:
     - uses: actions/checkout@v3
