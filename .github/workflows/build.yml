@@ -21,16 +21,18 @@ jobs:
           - extensions: pcov
             repo: krakjoe/pcov
             branch: release
+            dev_branch: develop
             args: enable-pcov
           - extensions: xdebug
             repo: xdebug/xdebug
             branch: master
+            dev_branch: xdebug_3_2
             args: with-xdebug
     steps:
     - uses: actions/checkout@v3
     - name: build
       run: |
-        pwsh scripts/builder.ps1 ${{ matrix.extensions }} ${{ matrix.repo }} ${{ matrix.branch }} ${{ matrix.args }} ${{ matrix.sdk_version }} ${{ matrix.vs }} ${{ matrix.arch }} ${{ matrix.ts }} ${{ matrix.php }}
+        pwsh scripts/builder.ps1 ${{ matrix.extensions }} ${{ matrix.repo }} ${{ matrix.branch }} ${{ matrix.dev_branch }} ${{ matrix.args }} ${{ matrix.sdk_version }} ${{ matrix.vs }} ${{ matrix.arch }} ${{ matrix.ts }} ${{ matrix.php }}
         $exit_code = $?
         if(-not($exit_code)) {
           exit $exit_code

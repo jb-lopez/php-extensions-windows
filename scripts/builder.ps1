@@ -18,26 +18,31 @@ param (
     [ValidateNotNull()]
     [ValidateLength(1, [int]::MaxValue)]
     [string]
-    $config_args,
+    $dev_branch,
     [Parameter(Position = 4, Mandatory = $true)]
     [ValidateNotNull()]
     [ValidateLength(1, [int]::MaxValue)]
     [string]
-    $sdk_version,
+    $config_args,
     [Parameter(Position = 5, Mandatory = $true)]
     [ValidateNotNull()]
     [ValidateLength(1, [int]::MaxValue)]
     [string]
-    $vs,
+    $sdk_version,
     [Parameter(Position = 6, Mandatory = $true)]
     [ValidateNotNull()]
     [ValidateLength(1, [int]::MaxValue)]
     [string]
+    $vs,
+    [Parameter(Position = 7, Mandatory = $true)]
+    [ValidateNotNull()]
+    [ValidateLength(1, [int]::MaxValue)]
+    [string]
     $arch,
-    [Parameter(Position = 7, Mandatory = $false)]
+    [Parameter(Position = 8, Mandatory = $false)]
     [string]
     $ts,
-    [Parameter(Position = 8, Mandatory = $true)]
+    [Parameter(Position = 9, Mandatory = $true)]
     [ValidateNotNull()]
     [ValidateLength(1, [int]::MaxValue)]
     [string]
@@ -55,7 +60,11 @@ Function Cleanup() {
 }
 
 Function Get-Extension() {
-    git clone --branch=$branch $github/$repo.git $ext_dir
+    if($php -ne $nightly_version) {
+        git clone --branch=$branch $github/$repo.git $ext_dir
+    } else {
+        git clone --branch=$dev_branch $github/$repo.git $ext_dir
+    }
 }
 
 Function Get-Package {
