@@ -95,7 +95,7 @@ Function Get-Package {
     }
 }
 
-Function Add-TaskFile() {
+Function Add-TaskFile1() {
     param (
         [Parameter(Position = 0, Mandatory = $true)]
         [ValidateNotNull()]
@@ -107,9 +107,19 @@ Function Add-TaskFile() {
     $bat_content += ""
     $bat_content += "curl -LO https://github.com/xianyi/OpenBLAS/releases/download/v0.3.18/OpenBLAS-0.3.18-x64.zip"
     $bat_content += '7z x OpenBLAS-0.3.18-x64.zip -o"..\deps"'
-    $bat_content += "'C:\Program Files\Git\usr\bin\sed.exe' -i 's/#define lapack_complex_float    float _Complex/#define lapack_complex_float    _C_float_complex/g' ..\deps\include\lapack.h "
-    $bat_content += "'C:\Program Files\Git\usr\bin\sed.exe' -i 's/#define lapack_complex_double   double _Complex/#define lapack_complex_double   _C_double_complex/g' ..\deps\include\lapack.h "
-    $bat_content += "tree ..\deps"
+    Set-Content -Encoding "ASCII" -Path $filename -Value $bat_content
+}
+
+Function Add-TaskFile2() {
+    param (
+        [Parameter(Position = 0, Mandatory = $true)]
+        [ValidateNotNull()]
+        [ValidateLength(1, [int]::MaxValue)]
+        [string]
+        $filename
+    )
+    $bat_content = @()
+    $bat_content += ""
     $bat_content += "call phpize 2>&1"
     $bat_content += "call configure --help"
     $bat_content += "call configure --$config_args --enable-debug-pack 2>&1"
@@ -159,11 +169,18 @@ Function Build-Extension() {
     & "C:\projects\$extension\build-ext.bat"
 
     Set-Location "$ext_dir\ext"
-    Add-TaskFile "task.bat"
+    Add-TaskFile1 "task1.bat"
+    Add-TaskFile2 "task2.bat"
     $env:PATH = "$cache_dir\$package_dir;$env:PATH"
     $builder = "$cache_dir\php-sdk-$sdk_version\phpsdk-$vs-$arch.bat"
-    $task = (Get-Item -Path "." -Verbose).FullName + '\task.bat'
-    & $builder -t $task
+    $task1 = (Get-Item -Path "." -Verbose).FullName + '\task1.bat'
+    $task2 = (Get-Item -Path "." -Verbose).FullName + '\task2.bat'
+    $lapack_file = "C:\projects\tensor\deps\include\lapack.h"
+
+    & $builder -t $task1
+    (Get-content $lapack_file) | Foreach-Object {$_ -replace "float _Complex", "_C_float_complex"} | Set-Content $lapack_file
+    (Get-content $lapack_file) | Foreach-Object {$_ -replace "double _Complex", "_C_double_complex"} | Set-Content $lapack_file
+    & $builder -t $task2
 }
 
 Function Copy-Extension() {
