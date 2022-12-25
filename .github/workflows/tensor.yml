@@ -23,8 +23,7 @@ jobs:
     - uses: actions/checkout@v3
     - name: build
       run: |
-        pwsh scripts/tensor.ps1
-        pwsh scripts/builder.ps1 ${{ matrix.extensions }} ${{ matrix.repo }} ${{ matrix.branch }} ${{ matrix.args }} ${{ matrix.sdk_version }} ${{ matrix.vs }} ${{ matrix.arch }} ${{ matrix.ts }} ${{ matrix.php }}
+        pwsh scripts/tensor.ps1 ${{ matrix.extensions }} ${{ matrix.repo }} ${{ matrix.branch }} ${{ matrix.args }} ${{ matrix.sdk_version }} ${{ matrix.vs }} ${{ matrix.arch }} ${{ matrix.ts }} ${{ matrix.php }}
         $exit_code = $?
         if(-not($exit_code)) {
           exit $exit_code
