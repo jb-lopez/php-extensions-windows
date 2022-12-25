@@ -1,9 +1,6 @@
 name: 'Build'
 on:
-  push:
   workflow_dispatch:
-  schedule:
-    - cron: '30 0 * * *'
 jobs:
   build:
     name: build
