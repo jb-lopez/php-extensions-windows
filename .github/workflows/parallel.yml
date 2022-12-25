@@ -25,7 +25,7 @@ jobs:
     - name: Fetch dependencies
       run: |
         curl -LO https://windows.php.net/downloads/pecl/deps/pthreads-2.11.0-vs16-${{matrix.arch}}.zip
-        7z x pthreads-2.11.0-vs16-${{matrix.arch}}.zip -o..\deps
+        7z x pthreads-2.11.0-vs16-${{matrix.arch}}.zip -o ..\deps
     - name: build
       run: |
         pwsh scripts/builder.ps1 ${{ matrix.extensions }} ${{ matrix.repo }} ${{ matrix.branch }} ${{ matrix.args }} ${{ matrix.sdk_version }} ${{ matrix.vs }} ${{ matrix.arch }} ${{ matrix.ts }} ${{ matrix.php }}
