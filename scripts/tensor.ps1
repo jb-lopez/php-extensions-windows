@@ -107,8 +107,8 @@ Function Add-TaskFile() {
     $bat_content += ""
     $bat_content += "curl -LO https://github.com/xianyi/OpenBLAS/releases/download/v0.3.18/OpenBLAS-0.3.18-x64.zip"
     $bat_content += '7z x OpenBLAS-0.3.18-x64.zip -o"..\deps"'
-    $bat_content += "C:\Program Files\Git\usr\bin\sed.exe -i 's/#define lapack_complex_float    float _Complex/#define lapack_complex_float    _C_float_complex/g' ..\deps\include\lapack.h "
-    $bat_content += "C:\Program Files\Git\usr\bin\sed.exe -i 's/#define lapack_complex_double   double _Complex/#define lapack_complex_double   _C_double_complex/g' ..\deps\include\lapack.h "
+    $bat_content += "'C:\Program Files\Git\usr\bin\sed.exe' -i 's/#define lapack_complex_float    float _Complex/#define lapack_complex_float    _C_float_complex/g' ..\deps\include\lapack.h "
+    $bat_content += "'C:\Program Files\Git\usr\bin\sed.exe' -i 's/#define lapack_complex_double   double _Complex/#define lapack_complex_double   _C_double_complex/g' ..\deps\include\lapack.h "
     $bat_content += "tree ..\deps"
     $bat_content += "call phpize 2>&1"
     $bat_content += "call configure --help"
