@@ -139,7 +139,6 @@ Function Add-TaskFile3() {
     $bat_content = @()
     $bat_content += ""
     $bat_content += "nmake /nologo 2>&1"
-    $bat_content += "tree /f $ext_dir"
     $bat_content += "exit %errorlevel%"
     Set-Content -Encoding "ASCII" -Path $filename -Value $bat_content
 }
