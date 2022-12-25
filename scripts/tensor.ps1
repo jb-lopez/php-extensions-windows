@@ -123,7 +123,21 @@ Function Add-TaskFile2() {
     $bat_content += ""
     $bat_content += "call phpize 2>&1"
     $bat_content += "call configure --help"
-    $bat_content += "call configure --$config_args --enable-debug-pack 2>&1"
+    # $bat_content += "call configure --$config_args --enable-debug-pack 2>&1"
+    $bat_content += "call configure --$config_args 2>&1"
+    Set-Content -Encoding "ASCII" -Path $filename -Value $bat_content
+}
+
+Function Add-TaskFile3() {
+    param (
+        [Parameter(Position = 0, Mandatory = $true)]
+        [ValidateNotNull()]
+        [ValidateLength(1, [int]::MaxValue)]
+        [string]
+        $filename
+    )
+    $bat_content = @()
+    $bat_content += ""
     $bat_content += "nmake /nologo 2>&1"
     $bat_content += "exit %errorlevel%"
     Set-Content -Encoding "ASCII" -Path $filename -Value $bat_content
@@ -171,17 +185,22 @@ Function Build-Extension() {
     Set-Location "$ext_dir\ext"
     Add-TaskFile1 "task1.bat"
     Add-TaskFile2 "task2.bat"
+    Add-TaskFile3 "task3.bat"
     $env:PATH = "$cache_dir\$package_dir;$env:PATH"
     $builder = "$cache_dir\php-sdk-$sdk_version\phpsdk-$vs-$arch.bat"
     $task1 = (Get-Item -Path "." -Verbose).FullName + '\task1.bat'
     $task2 = (Get-Item -Path "." -Verbose).FullName + '\task2.bat'
+    $task3 = (Get-Item -Path "." -Verbose).FullName + '\task3.bat'
     $lapack_file = "C:\projects\tensor\deps\include\lapack.h"
+    $makefile_file = "C:\projects\tensor\ext\Makefile"
 
     & $builder -t $task1
     (Get-content $lapack_file) | Foreach-Object {$_ -replace "float _Complex", "_C_float_complex"} | Set-Content $lapack_file
     & $builder -t "C:\projects\$extension\build-ext.bat"
     (Get-content $lapack_file) | Foreach-Object {$_ -replace "double _Complex", "_C_double_complex"} | Set-Content $lapack_file
     & $builder -t $task2
+    (Get-content $makefile_file) | Foreach-Object {$_ -replace "bcrypt.lib", "bcrypt.lib libopenblas.lib libopenblas.dll libopenblas.dll.a"} | Set-Content $makefile_file
+    & $builder -t $task3
 }
 
 Function Copy-Extension() {
