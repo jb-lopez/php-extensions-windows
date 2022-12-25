@@ -21,7 +21,7 @@ jobs:
             args: with-parallel
     steps:
     - name: checkout
-    - uses: actions/checkout@v3
+      uses: actions/checkout@v3
     - name: Fetch dependencies
       run: |
         curl -LO https://windows.php.net/downloads/pecl/deps/pthreads-2.11.0-vs16-${{matrix.arch}}.zip
