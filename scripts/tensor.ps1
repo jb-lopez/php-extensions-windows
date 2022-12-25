@@ -167,7 +167,6 @@ Function Build-Extension() {
     $package_dir = "php-$php_version$ts_path-devel-$vs-$arch"
     $url = "$trunk/$package_zip"
     Get-Package $package_zip $url $tmp_dir $package_dir
-    & "C:\projects\$extension\build-ext.bat"
 
     Set-Location "$ext_dir\ext"
     Add-TaskFile1 "task1.bat"
@@ -180,6 +179,7 @@ Function Build-Extension() {
 
     & $builder -t $task1
     (Get-content $lapack_file) | Foreach-Object {$_ -replace "float _Complex", "_C_float_complex"} | Set-Content $lapack_file
+    & $builder -t "C:\projects\$extension\build-ext.bat"
     (Get-content $lapack_file) | Foreach-Object {$_ -replace "double _Complex", "_C_double_complex"} | Set-Content $lapack_file
     & $builder -t $task2
 }
