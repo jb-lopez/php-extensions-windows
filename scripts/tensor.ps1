@@ -156,7 +156,7 @@ Function Build-Extension() {
     Get-Package $package_zip $url $tmp_dir $package_dir
     & "C:\projects\$extension\build-ext.bat"
 
-    Set-Location $ext_dir
+    Set-Location "$ext_dir\ext"
     Add-TaskFile "task.bat"
     $env:PATH = "$cache_dir\$package_dir;$env:PATH"
     $builder = "$cache_dir\php-sdk-$sdk_version\phpsdk-$vs-$arch.bat"
@@ -180,7 +180,7 @@ Function Copy-Extension() {
 
 $workspace = (Get-Location).Path
 $cache_dir = "C:\build-cache"
-$ext_dir = "C:\projects\$extension\ext"
+$ext_dir = "C:\projects\$extension"
 $github = "https://github.com"
 $trunk = "$github/shivammathur/php-builder-windows/releases/download/php$php"
 $nightly_version = '8.3'
