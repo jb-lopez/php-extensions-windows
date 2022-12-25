@@ -18,7 +18,7 @@ jobs:
           - extensions: tensor
             repo:  RubixML/Tensor 
             branch: master
-            args: enable-tensor
+            args: with-tensor
     steps:
     - uses: actions/checkout@v3
     - name: build
