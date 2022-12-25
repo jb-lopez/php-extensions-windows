@@ -212,7 +212,9 @@ Function Copy-Extension() {
     if(Test-Path $ext_path) {
         Copy-Item -Path $ext_path -Destination "$extension\php$php`_$ts`_$arch`_$extension.dll"
         Get-ChildItem $extension
+        Write-Output "Copied to $extension\php$php`_$ts`_$arch`_$extension.dll"
     } else {
+        Write-Output "File '$ext_path' does not exist!"
         exit 1
     }
 }
