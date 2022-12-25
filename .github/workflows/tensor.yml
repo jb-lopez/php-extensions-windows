@@ -23,9 +23,7 @@ jobs:
     - uses: actions/checkout@v3
     - name: build
       run: |
-        rename C:\projects\tensor C:\projects\tensor-project
-        move C:\projects\tensor-project\ext C:\projects
-        rename C:\projects\ext C:\projects\tensor
+        pwsh scripts/tensor.ps1
         pwsh scripts/builder.ps1 ${{ matrix.extensions }} ${{ matrix.repo }} ${{ matrix.branch }} ${{ matrix.args }} ${{ matrix.sdk_version }} ${{ matrix.vs }} ${{ matrix.arch }} ${{ matrix.ts }} ${{ matrix.php }}
         $exit_code = $?
         if(-not($exit_code)) {
