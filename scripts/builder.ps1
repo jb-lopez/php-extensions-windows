@@ -113,6 +113,7 @@ Function Add-TaskFile() {
     $bat_content = @()
     $bat_content += ""
     $bat_content += "call phpize 2>&1"
+    $bat_content += "call configure --help"
     $bat_content += "call configure --$config_args --enable-debug-pack 2>&1"
     $bat_content += "nmake /nologo 2>&1"
     $bat_content += "exit %errorlevel%"
