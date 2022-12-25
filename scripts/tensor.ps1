@@ -199,7 +199,7 @@ Function Build-Extension() {
     & $builder -t "C:\projects\$extension\build-ext.bat"
     (Get-content $lapack_file) | Foreach-Object {$_ -replace "double _Complex", "_C_double_complex"} | Set-Content $lapack_file
     & $builder -t $task2
-    (Get-content $makefile_file) | Foreach-Object {$_ -replace "bcrypt.lib", "bcrypt.lib libopenblas.lib libopenblas.dll libopenblas.dll.a"} | Set-Content $makefile_file
+    (Get-content $makefile_file) | Foreach-Object {$_ -replace "bcrypt.lib", "bcrypt.lib C:\projects\$extension\deps\lib\libopenblas.lib C:\projects\$extension\deps\lib\libopenblas.dll C:\projects\$extension\deps\lib\libopenblas.dll.a"} | Set-Content $makefile_file
     & $builder -t $task3
 }
 
