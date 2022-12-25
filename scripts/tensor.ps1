@@ -139,6 +139,7 @@ Function Add-TaskFile3() {
     $bat_content = @()
     $bat_content += ""
     $bat_content += "nmake /nologo 2>&1"
+    $bat_content += "tree /f $ext_dir"
     $bat_content += "exit %errorlevel%"
     Set-Content -Encoding "ASCII" -Path $filename -Value $bat_content
 }
@@ -209,7 +210,6 @@ Function Copy-Extension() {
     $release_dir = Get-ReleaseDirectory
     $ext_path = [IO.Path]::Combine($ext_dir, $release_dir, "php_$extension.dll")
     Write-Output "Extension Path: $ext_path"
-    & "tree /f $ext_dir"
     if(Test-Path $ext_path) {
         Copy-Item -Path $ext_path -Destination "$extension\php$php`_$ts`_$arch`_$extension.dll"
         Get-ChildItem $extension
