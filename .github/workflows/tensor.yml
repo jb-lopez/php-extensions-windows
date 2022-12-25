@@ -30,31 +30,36 @@ jobs:
         if(-not($exit_code)) {
           exit $exit_code
         }
+    - name: Upload Build Environment for Debug
+      uses: actions/upload-artifact@v3
+      with:
+        name: ${{ matrix.extensions }}_${{ matrix.ts }}_${{ matrix.arch }}_build_env
+        path: "C:/projects"
     - name: Upload Artifact
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v3
       with:
         name: ${{ matrix.extensions }}_${{ matrix.ts }}_${{ matrix.arch }}
         path: ${{ matrix.extensions }}
-  release:
-    runs-on: ubuntu-latest
-    needs: build
-    steps:
-    - uses: actions/checkout@v3
-    - run: mkdir ext
-    - uses: actions/download-artifact@v2
-      with:
-        path: ext
-    - name: Release
-      run: |
-        set -x
-        assets=()
-        for asset in ./ext/*/*.dll; do
-          assets+=("$asset")
-        done
-        if ! gh release view Tensor; then
-          gh release create "Tensor" "${assets[@]}" -t "Tensor" -n "Tensor"
-        else
-          gh release upload "Tensor" "${assets[@]}" --clobber
-        fi
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  # release:
+  #   runs-on: ubuntu-latest
+  #   needs: build
+  #   steps:
+  #   - uses: actions/checkout@v3
+  #   - run: mkdir ext
+  #   - uses: actions/download-artifact@v2
+  #     with:
+  #       path: ext
+  #   - name: Release
+  #     run: |
+  #       set -x
+  #       assets=()
+  #       for asset in ./ext/*/*.dll; do
+  #         assets+=("$asset")
+  #       done
+  #       if ! gh release view Tensor; then
+  #         gh release create "Tensor" "${assets[@]}" -t "Tensor" -n "Tensor"
+  #       else
+  #         gh release upload "Tensor" "${assets[@]}" --clobber
+  #       fi
+  #     env:
+  #       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
