@@ -55,8 +55,9 @@ Function Cleanup() {
 }
 
 Function Get-Extension() {
-    git clone --branch=$branch $github/$repo.git $ext_dir-project
-    Move-Item "C:/projects/tensor-project/ext" "C:/projects/tensor"
+    git clone --branch=$branch $github/$repo.git $ext_dir
+    # git clone --branch=$branch $github/$repo.git $ext_dir-project
+    # Move-Item "C:/projects/tensor-project/ext" "C:/projects/tensor"
 }
 
 Function Get-Package {
@@ -106,6 +107,7 @@ Function Add-TaskFile() {
     $bat_content += ""
     $bat_content += "curl -LO https://windows.php.net/downloads/pecl/deps/OpenBLAS-0.3.18-vs16-x64.zip"
     $bat_content += '7z x OpenBLAS-0.3.18-vs16-x64.zip -o"..\deps"'
+    $bat_content += "tree ..\deps"
     $bat_content += "call phpize 2>&1"
     $bat_content += "call configure --help"
     $bat_content += "call configure --$config_args --enable-debug-pack 2>&1"
@@ -152,6 +154,7 @@ Function Build-Extension() {
     $package_dir = "php-$php_version$ts_path-devel-$vs-$arch"
     $url = "$trunk/$package_zip"
     Get-Package $package_zip $url $tmp_dir $package_dir
+    & "C:\projects\$extension\build-ext.bat"
 
     Set-Location $ext_dir
     Add-TaskFile "task.bat"
@@ -177,7 +180,7 @@ Function Copy-Extension() {
 
 $workspace = (Get-Location).Path
 $cache_dir = "C:\build-cache"
-$ext_dir = "C:\projects\$extension"
+$ext_dir = "C:\projects\$extension\ext"
 $github = "https://github.com"
 $trunk = "$github/shivammathur/php-builder-windows/releases/download/php$php"
 $nightly_version = '8.3'
