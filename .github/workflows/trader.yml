@@ -49,10 +49,10 @@ jobs:
         for asset in ./ext/*/*.dll; do
           assets+=("$asset")
         done
-        if ! gh release view builds; then
-          gh release create "builds" "${assets[@]}" -t "builds" -n "builds"
+        if ! gh release view Trader; then
+          gh release create "Trader" "${assets[@]}" -t "Trader" -n "Trader"
         else
-          gh release upload "builds" "${assets[@]}" --clobber
+          gh release upload "Trader" "${assets[@]}" --clobber
         fi
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

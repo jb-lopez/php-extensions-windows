@@ -8,7 +8,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php: ['8.0', '8.1', '8.2', '8.3']
+        php: ['7.0', '7.1', '7.2', '7.3', '7.4', '8.0', '8.1', '8.2', '8.3']
         extensions: [xdebug]
         sdk_version: [master]
         vs: [vs16]
@@ -49,10 +49,10 @@ jobs:
         for asset in ./ext/*/*.dll; do
           assets+=("$asset")
         done
-        if ! gh release view builds; then
-          gh release create "builds" "${assets[@]}" -t "builds" -n "builds"
+        if ! gh release view xDebug; then
+          gh release create "xDebug" "${assets[@]}" -t "xDebug" -n "xDebug"
         else
-          gh release upload "builds" "${assets[@]}" --clobber
+          gh release upload "xDebug" "${assets[@]}" --clobber
         fi
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

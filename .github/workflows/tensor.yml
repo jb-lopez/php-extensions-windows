@@ -49,10 +49,10 @@ jobs:
         for asset in ./ext/*/*.dll; do
           assets+=("$asset")
         done
-        if ! gh release view builds; then
-          gh release create "builds" "${assets[@]}" -t "builds" -n "builds"
+        if ! gh release view Tensor; then
+          gh release create "Tensor" "${assets[@]}" -t "Tensor" -n "Tensor"
         else
-          gh release upload "builds" "${assets[@]}" --clobber
+          gh release upload "Tensor" "${assets[@]}" --clobber
         fi
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -50,10 +50,10 @@ jobs:
         for asset in ./ext/*/*.dll; do
           assets+=("$asset")
         done
-        if ! gh release view builds; then
-          gh release create "builds" "${assets[@]}" -t "builds" -n "builds"
+        if ! gh release view Parallel; then
+          gh release create "Parallel" "${assets[@]}" -t "Parallel" -n "Parallel"
         else
-          gh release upload "builds" "${assets[@]}" --clobber
+          gh release upload "Parallel" "${assets[@]}" --clobber
         fi
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
