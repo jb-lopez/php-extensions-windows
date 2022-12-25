@@ -1,0 +1,58 @@
+name: 'X-Debug'
+on:
+  workflow_dispatch:
+jobs:
+  build:
+    name: build
+    runs-on: windows-2019
+    strategy:
+      fail-fast: false
+      matrix:
+        php: ['8.0', '8.1', '8.2', '8.3']
+        extensions: [xdebug]
+        sdk_version: [master]
+        vs: [vs16]
+        ts: [ts, nts]
+        arch: [x64, x86]
+        include:
+          - extensions: xdebug
+            repo: xdebug/xdebug
+            branch: master
+            args: with-xdebug
+    steps:
+    - uses: actions/checkout@v3
+    - name: build
+      run: |
+        pwsh scripts/builder.ps1 ${{ matrix.extensions }} ${{ matrix.repo }} ${{ matrix.branch }} ${{ matrix.args }} ${{ matrix.sdk_version }} ${{ matrix.vs }} ${{ matrix.arch }} ${{ matrix.ts }} ${{ matrix.php }}
+        $exit_code = $?
+        if(-not($exit_code)) {
+          exit $exit_code
+        }
+    - name: Upload Artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: ${{ matrix.extensions }}_${{ matrix.ts }}_${{ matrix.arch }}
+        path: ${{ matrix.extensions }}
+  release:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+    - uses: actions/checkout@v3
+    - run: mkdir ext
+    - uses: actions/download-artifact@v2
+      with:
+        path: ext
+    - name: Release
+      run: |
+        set -x
+        assets=()
+        for asset in ./ext/*/*.dll; do
+          assets+=("$asset")
+        done
+        if ! gh release view builds; then
+          gh release create "builds" "${assets[@]}" -t "builds" -n "builds"
+        else
+          gh release upload "builds" "${assets[@]}" --clobber
+        fi
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
