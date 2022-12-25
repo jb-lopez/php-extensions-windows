@@ -107,6 +107,7 @@ Function Add-TaskFile1() {
     $bat_content += ""
     $bat_content += "curl -LO https://github.com/xianyi/OpenBLAS/releases/download/v0.3.21/OpenBLAS-0.3.21-x64.zip"
     $bat_content += '7z x OpenBLAS-0.3.21-x64.zip -o"..\deps"'
+    $bat_content += 'copy ..\deps\bin\libopenblas.dll ..\deps\lib\libopenblas.dll'
     Set-Content -Encoding "ASCII" -Path $filename -Value $bat_content
 }
 
