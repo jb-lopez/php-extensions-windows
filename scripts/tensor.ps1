@@ -56,7 +56,7 @@ Function Cleanup() {
 
 Function Get-Extension() {
     git clone --branch=$branch $github/$repo.git $ext_dir-project
-    Rename-Item "C:/projects/tensor-project/ext" "C:/projects/tensor"
+    Move-Item "C:/projects/tensor-project/ext" "C:/projects/tensor"
 }
 
 Function Get-Package {
