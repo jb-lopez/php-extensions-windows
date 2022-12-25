@@ -105,8 +105,8 @@ Function Add-TaskFile() {
     )
     $bat_content = @()
     $bat_content += ""
-    $bat_content += "curl -LO https://github.com/xianyi/OpenBLAS/releases/download/v0.3.20/OpenBLAS-0.3.20-x64.zip"
-    $bat_content += '7z x OpenBLAS-0.3.20-x64.zip -o"..\deps"'
+    $bat_content += "curl -LO https://github.com/xianyi/OpenBLAS/releases/download/v0.3.21/OpenBLAS-0.3.21-x64.zip"
+    $bat_content += '7z x OpenBLAS-0.3.21-x64.zip -o"..\deps"'
     $bat_content += "tree ..\deps"
     $bat_content += "call phpize 2>&1"
     $bat_content += "call configure --help"
