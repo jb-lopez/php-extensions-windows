@@ -16,7 +16,7 @@ jobs:
         arch: [x64]
         include:
           - extensions: trader
-            repo:   php/pecl-math-trader 
+            repo:   php/pecl-math-trader
             branch: master
             args: enable-trader
     steps:

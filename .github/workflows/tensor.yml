@@ -16,7 +16,7 @@ jobs:
         arch: [x64]
         include:
           - extensions: tensor
-            repo:  RubixML/Tensor 
+            repo:  RubixML/Tensor
             branch: master
             args: enable-tensor
     steps:
