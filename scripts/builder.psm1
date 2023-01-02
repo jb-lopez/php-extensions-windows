@@ -157,26 +157,26 @@ Function RunBuilder([BuilderParameters]$buildParams)
 {
     PassBuildInformation $buildParams
 
-    $workspace = (Get-Location).Path
-    $cache_dir = "C:\build-cache"
-    $ext_dir = "C:\projects\$extension"
-    $github = "https://github.com"
-    $trunk = "$github/shivammathur/php-builder-windows/releases/download/php$php"
-    $nightly_version = '8.3'
-    $php_branch = Get-PHPBranch $nightly_version
-    $php_version = Invoke-RestMethod "https://raw.githubusercontent.com/php/php-src/$php_branch/main/php_version.h" | Where-Object { $_  -match 'PHP_VERSION "(.*)"' } | Foreach-Object {$Matches[1]}
-    $package_zip = "php-sdk-$sdk_version.zip"
-    $tmp_dir = "php-sdk-binary-tools-$sdk_version"
+    $script:workspace = (Get-Location).Path
+    $script:cache_dir = "C:\build-cache"
+    $script:ext_dir = "C:\projects\$extension"
+    $script:github = "https://github.com"
+    $script:trunk = "$github/shivammathur/php-builder-windows/releases/download/php$php"
+    $script:nightly_version = '8.3'
+    $script:php_branch = Get-PHPBranch $nightly_version
+    $script:php_version = Invoke-RestMethod "https://raw.githubusercontent.com/php/php-src/$php_branch/main/php_version.h" | Where-Object { $_  -match 'PHP_VERSION "(.*)"' } | Foreach-Object {$Matches[1]}
+    $script:package_zip = "php-sdk-$sdk_version.zip"
+    $script:tmp_dir = "php-sdk-binary-tools-$sdk_version"
     if($sdk_version -eq 'master') {
-        $package_zip = "master.zip"
-        $tmp_dir = "php-sdk-binary-tools-master"
+        $script:package_zip = "master.zip"
+        $script:tmp_dir = "php-sdk-binary-tools-master"
     }
-    $package_dir = "php-sdk-$sdk_version"
-    $url = "$github/php/php-sdk-binary-tools/archive/$package_zip"
-    
+    $script:package_dir = "php-sdk-$sdk_version"
+    $script:url = "$github/php/php-sdk-binary-tools/archive/$package_zip"
+
     Cleanup $ext_dir $cache_dir
     Get-BuildPackage $package_zip $url $tmp_dir $package_dir
     Get-Extension $nightly_version $ext_dir
     Build-Extension $trunk $php_version
-    Copy-Extension $workspace    
+    Copy-Extension $workspace
 }
