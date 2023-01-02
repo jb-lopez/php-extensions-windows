@@ -8,52 +8,44 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php: ['8.0', '8.1', '8.2', '8.3']
-        extensions: [parallel]
-        sdk_version: [master]
-        vs: [vs16]
-        ts: [ts]
-        arch: [x64]
-        include:
-          - extensions: parallel
-            repo: krakjoe/parallel
-            branch: release
-            args: with-parallel
+        php: [ '8.0', '8.1', '8.2', '8.3' ]
     steps:
-    - name: checkout
-      uses: actions/checkout@v3
-    - name: build
-      run: |
-        pwsh scripts/parallel.ps1 ${{ matrix.extensions }} ${{ matrix.repo }} ${{ matrix.branch }} ${{ matrix.args }} ${{ matrix.sdk_version }} ${{ matrix.vs }} ${{ matrix.arch }} ${{ matrix.ts }} ${{ matrix.php }}
-        $exit_code = $?
-        if(-not($exit_code)) {
-          exit $exit_code
-        }
-    - name: Upload Artifact
-      uses: actions/upload-artifact@v2
-      with:
-        name: ${{ matrix.extensions }}_${{ matrix.ts }}_${{ matrix.arch }}
-        path: ${{ matrix.extensions }}
+      - name: checkout
+        uses: actions/checkout@v3
+      - name: build
+        # script parameters $extension $repo $branch $dev_branch $args $sdk_version $vs $arch $ts $php
+        run: |
+          pwsh scripts/parallel.ps1 parallel krakjoe/parallel release develop with-parallel master vs16 x64 ts ${{ matrix.php }}
+          $exit_code = $?
+          if(-not($exit_code)) {
+            exit $exit_code
+          }
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          if-no-files-found: error
+          name: parallel_ts_x64
+          path: parallel
   release:
     runs-on: ubuntu-latest
     needs: build
     steps:
-    - uses: actions/checkout@v3
-    - run: mkdir ext
-    - uses: actions/download-artifact@v2
-      with:
-        path: ext
-    - name: Release
-      run: |
-        set -x
-        assets=()
-        for asset in ./ext/*/*.dll; do
-          assets+=("$asset")
-        done
-        if ! gh release view Parallel; then
-          gh release create "Parallel" "${assets[@]}" -t "Parallel" -n "Parallel"
-        else
-          gh release upload "Parallel" "${assets[@]}" --clobber
-        fi
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - uses: actions/checkout@v3
+      - run: mkdir ext
+      - uses: actions/download-artifact@v3
+        with:
+          path: ext
+      - name: Release
+        run: |
+          set -x
+          assets=()
+          for asset in ./ext/*/*.dll; do
+            assets+=("$asset")
+          done
+          if ! gh release view Parallel; then
+            gh release create "Parallel" "${assets[@]}" -t "Parallel" -n "Parallel"
+          else
+            gh release upload "Parallel" "${assets[@]}" --clobber
+          fi
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
