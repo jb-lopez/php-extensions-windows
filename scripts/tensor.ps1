@@ -129,11 +129,11 @@ Function Copy-ExtensionOverride([string]$workspace) {
     New-Item -Path $extension -ItemType "directory"
     $release_dir = Get-ReleaseDirectory
     $ext_path = [IO.Path]::Combine($ext_dir, "ext", $release_dir, "php_$extension.dll")
-    $dep_path = [IO.Path]::Combine($ext_dir, "deps", "bin", "libopenblas.dll")
+    # $dep_path = [IO.Path]::Combine($ext_dir, "deps", "bin", "libopenblas.dll")
     Write-Output "Extension Path: $ext_path"
     if(Test-Path $ext_path) {
         Copy-Item -Path $ext_path -Destination "$extension\php$php`_$ts`_$arch`_$extension.dll"
-        Copy-Item -Path $dep_path -Destination "$extension\libopenblas.dll"
+        # Copy-Item -Path $dep_path -Destination "$extension\libopenblas.dll"
         Get-ChildItem $extension
         Write-Output "Copied to $extension\php$php`_$ts`_$arch`_$extension.dll"
     } else {
