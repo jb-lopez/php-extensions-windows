@@ -9,14 +9,13 @@ jobs:
       fail-fast: false
       matrix:
         php: [ '8.0', '8.1', '8.2', '8.3' ]
-        ts: [ ts ]
     steps:
       - name: checkout
         uses: actions/checkout@v3
       - name: build
         # script parameters $extension $repo $branch $dev_branch $args $sdk_version $vs $arch $ts $php
         run: |
-          pwsh scripts/parallel.ps1 parallel krakjoe/parallel release develop with-parallel master vs16 x64 ${{ matrix.ts }} ${{ matrix.php }}
+          pwsh scripts/parallel.ps1 parallel krakjoe/parallel release develop with-parallel master vs16 x64 ts ${{ matrix.php }}
           $exit_code = $?
           if(-not($exit_code)) {
             exit $exit_code
@@ -24,7 +23,7 @@ jobs:
       - name: Upload Artifact
         uses: actions/upload-artifact@v2
         with:
-          name: parallel_${{ matrix.ts }}_x64
+          name: parallel_ts_x64
           path: parallel
   release:
     runs-on: ubuntu-latest
