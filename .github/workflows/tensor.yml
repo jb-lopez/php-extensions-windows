@@ -16,7 +16,7 @@ jobs:
       - name: build
         # script parameters $extension $repo $branch $dev_branch $args $sdk_version $vs $arch $ts $php
         run: |
-          pwsh scripts/tensor.ps1 tensor RubixML/Tensor master enable-tensor master vs16 x64 ${{ matrix.ts }} ${{ matrix.php }}
+          pwsh scripts/tensor.ps1 tensor RubixML/Tensor master master enable-tensor master vs16 x64 ${{ matrix.ts }} ${{ matrix.php }}
           $exit_code = $?
           if(-not($exit_code)) {
             exit $exit_code
