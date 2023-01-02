@@ -22,8 +22,9 @@ jobs:
             exit $exit_code
           }
       - name: Upload Artifact
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
+          if-no-files-found: error
           name: tensor_${{ matrix.ts }}_x64
           path: tensor
   release:
