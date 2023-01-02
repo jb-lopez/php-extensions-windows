@@ -157,22 +157,22 @@ Function RunBuilder([BuilderParameters]$buildParams)
 {
     PassBuildInformation $buildParams
 
-    $script:workspace = (Get-Location).Path
-    $script:cache_dir = "C:\build-cache"
-    $script:ext_dir = "C:\projects\$extension"
-    $script:github = "https://github.com"
-    $script:trunk = "$github/shivammathur/php-builder-windows/releases/download/php$php"
-    $script:nightly_version = '8.3'
-    $script:php_branch = Get-PHPBranch $nightly_version
-    $script:php_version = Invoke-RestMethod "https://raw.githubusercontent.com/php/php-src/$php_branch/main/php_version.h" | Where-Object { $_  -match 'PHP_VERSION "(.*)"' } | Foreach-Object {$Matches[1]}
-    $script:package_zip = "php-sdk-$sdk_version.zip"
-    $script:tmp_dir = "php-sdk-binary-tools-$sdk_version"
+    $global:workspace = (Get-Location).Path
+    $global:cache_dir = "C:\build-cache"
+    $global:ext_dir = "C:\projects\$extension"
+    $global:github = "https://github.com"
+    $global:trunk = "$github/shivammathur/php-builder-windows/releases/download/php$php"
+    $global:nightly_version = '8.3'
+    $global:php_branch = Get-PHPBranch $nightly_version
+    $global:php_version = Invoke-RestMethod "https://raw.githubusercontent.com/php/php-src/$php_branch/main/php_version.h" | Where-Object { $_  -match 'PHP_VERSION "(.*)"' } | Foreach-Object {$Matches[1]}
+    $global:package_zip = "php-sdk-$sdk_version.zip"
+    $global:tmp_dir = "php-sdk-binary-tools-$sdk_version"
     if($sdk_version -eq 'master') {
-        $script:package_zip = "master.zip"
-        $script:tmp_dir = "php-sdk-binary-tools-master"
+        $global:package_zip = "master.zip"
+        $global:tmp_dir = "php-sdk-binary-tools-master"
     }
-    $script:package_dir = "php-sdk-$sdk_version"
-    $script:url = "$github/php/php-sdk-binary-tools/archive/$package_zip"
+    $global:package_dir = "php-sdk-$sdk_version"
+    $global:url = "$github/php/php-sdk-binary-tools/archive/$package_zip"
 
     Cleanup $ext_dir $cache_dir
     Get-BuildPackage $package_zip $url $tmp_dir $package_dir
