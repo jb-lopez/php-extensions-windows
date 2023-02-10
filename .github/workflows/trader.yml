@@ -18,7 +18,7 @@ jobs:
       - name: Build
         # script parameters $extension $repo $branch $dev_branch $args $sdk_version $vs $arch $ts $php
         run: |
-          pwsh -Debug scripts/builder.ps1 trader php/pecl-math-trader master master enable-trader master vs16 x64 ${{ matrix.ts }} ${{ matrix.php }}
+          pwsh scripts/builder.ps1 trader php/pecl-math-trader master master enable-trader master vs16 x64 ${{ matrix.ts }} ${{ matrix.php }}
           $exit_code = $?
           if(-not($exit_code)) {
             exit $exit_code

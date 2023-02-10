@@ -51,6 +51,9 @@ param (
     $php
 )
 
+Set-PSDebug -Trace 2
+$DebugPreference = "Continue"
+
 Import-Module ".\scripts\builder.psm1"
 
 $buildParams = @{
