@@ -158,21 +158,35 @@ Function RunBuilder([BuilderParameters]$buildParams)
     PassBuildInformation $buildParams
 
     $global:workspace = (Get-Location).Path
+    Write-Debug "Workspace: $workspace"
     $global:cache_dir = "C:\build-cache"
+    Write-Debug "Cache Directory: $cache_dir"
     $global:ext_dir = "C:\projects\$extension"
+    Write-Debug "Extension Directory: $ext_dir"
     $global:github = "https://github.com"
+    Write-Debug "Github: $github"
     $global:trunk = "$github/shivammathur/php-builder-windows/releases/download/php$php"
+    Write-Debug "Trunk: $trunk"
     $global:nightly_version = '8.3'
+    Write-Debug "Nightly Version: $nightly_version"
     $global:php_branch = Get-PHPBranch $nightly_version
+    Write-Debug "PHP Branch: $php_branch"
     $global:php_version = Invoke-RestMethod "https://raw.githubusercontent.com/php/php-src/$php_branch/main/php_version.h" | Where-Object { $_  -match 'PHP_VERSION "(.*)"' } | Foreach-Object {$Matches[1]}
+    Write-Debug "PHP Version: $php_version"
     $global:package_zip = "php-sdk-$sdk_version.zip"
+    Write-Debug "Package Zip: $package_zip"
     $global:tmp_dir = "php-sdk-binary-tools-$sdk_version"
+    Write-Debug "Temp Directory: $tmp_dir"
     if($sdk_version -eq 'master') {
         $global:package_zip = "master.zip"
+        Write-Debug "Package Zip: $package_zip"
         $global:tmp_dir = "php-sdk-binary-tools-master"
+        Write-Debug "Temp Directory: $tmp_dir"
     }
     $global:package_dir = "php-sdk-$sdk_version"
+    Write-Debug "Package Directory: $package_dir"
     $global:url = "$github/php/php-sdk-binary-tools/archive/$package_zip"
+    Write-Debug "URL: $url"
 
     Cleanup $ext_dir $cache_dir
     Get-BuildPackage $package_zip $url $tmp_dir $package_dir
