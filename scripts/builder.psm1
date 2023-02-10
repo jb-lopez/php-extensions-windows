@@ -57,11 +57,13 @@ Function Get-BuildPackage([string]$package_zip, [string]$url, [string]$tmp_dir, 
 {
     if (-not(Test-Path $cache_dir\$package_zip))
     {
+        Write-Debug "Downloading $package_zip from $url to $cache_dir\$package_zip"
         Invoke-WebRequest $url -OutFile $cache_dir\$package_zip
     }
 
     if (-not(Test-Path $package_dir))
     {
+        Write-Debug "Extracting $package_zip to $package_dir"
         Expand-Archive -Path $cache_dir\$package_zip -DestinationPath $cache_dir -Force
         if ($tmp_dir -ne $package_dir)
         {
@@ -123,10 +125,15 @@ Function Get-PHPBranch([string]$nightly_version)
 Function Build-Extension([string]$trunk, [string]$php_version)
 {
     $ts_path = Get-TSPath
+    Write-Debug "TS Path: $ts_path"
     $package_zip = "php-devel-pack-$php_version$ts_path-Win32-$vs-$arch.zip"
+    Write-Debug "Package Zip: $package_zip"
     $tmp_dir = "php-$php_version-devel-$vs-$arch"
+    Write-Debug "Temp Directory: $tmp_dir"
     $package_dir = "php-$php_version$ts_path-devel-$vs-$arch"
+    Write-Debug "Package Directory: $package_dir"
     $url = "$trunk/$package_zip"
+    Write-Debug "URL: $url"
     Get-BuildPackage $package_zip $url $tmp_dir $package_dir
 
     Set-Location $ext_dir
