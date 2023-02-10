@@ -1,6 +1,8 @@
 name: 'X-Debug'
 on:
   workflow_dispatch:
+  schedule:
+    - cron: '27 9 * * 4'
 jobs:
   build:
     name: build
@@ -11,9 +13,9 @@ jobs:
         php: [ '8.0', '8.1', '8.2', '8.3' ]
         ts: [ ts, nts ]
     steps:
-      - name: checkout
+      - name: Checkout
         uses: actions/checkout@v3
-      - name: build
+      - name: Build
         # script parameters $extension $repo $branch $dev_branch $args $sdk_version $vs $arch $ts $php
         run: |
           pwsh scripts/builder.ps1 xdebug xdebug/xdebug master xdebug_3_2 with-xdebug master vs16 x64 ${{ matrix.ts }} ${{ matrix.php }}
@@ -32,8 +34,10 @@ jobs:
     needs: build
     steps:
       - uses: actions/checkout@v3
+        name: Checkout
       - run: mkdir ext
       - uses: actions/download-artifact@v3
+        name: Download Artifacts
         with:
           path: ext
       - name: Release

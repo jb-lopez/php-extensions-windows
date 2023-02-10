@@ -1,6 +1,8 @@
 name: 'Parallel'
 on:
   workflow_dispatch:
+  schedule:
+    - cron: '27 9 * * 4'
 jobs:
   build:
     name: build
@@ -10,9 +12,9 @@ jobs:
       matrix:
         php: [ '8.0', '8.1', '8.2', '8.3' ]
     steps:
-      - name: checkout
+      - name: Checkout
         uses: actions/checkout@v3
-      - name: build
+      - name: Build
         # script parameters $extension $repo $branch $dev_branch $args $sdk_version $vs $arch $ts $php
         run: |
           pwsh scripts/parallel.ps1 parallel krakjoe/parallel release develop with-parallel master vs16 x64 ts ${{ matrix.php }}
@@ -31,8 +33,10 @@ jobs:
     needs: build
     steps:
       - uses: actions/checkout@v3
+        name: Checkout
       - run: mkdir ext
       - uses: actions/download-artifact@v3
+        name: Download Artifacts
         with:
           path: ext
       - name: Release
