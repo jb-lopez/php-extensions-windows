@@ -32,6 +32,8 @@ Function Cleanup([string]$ext_dir, [string]$cache_dir)
     {
         Remove-Item $ext_dir -Recurse -Force
     }
+    New-Item -Path $ext_dir -ItemType "directory"
+
     if (Test-Path $cache_dir)
     {
         Remove-Item $cache_dir -Recurse -Force
@@ -155,38 +157,43 @@ Function Copy-Extension([string]$workspace)
 
 Function RunBuilder([BuilderParameters]$buildParams)
 {
+    Write-Debug "Build Parameters: $buildParams"
     PassBuildInformation $buildParams
 
     $global:workspace = (Get-Location).Path
-    Write-Output "Workspace: $workspace"
+    Write-Debug "Workspace: $workspace"
     $global:cache_dir = "C:\build-cache"
-    Write-Output "Cache Directory: $cache_dir"
+    Write-Debug "Cache Directory: $cache_dir"
     $global:ext_dir = "C:\projects\$extension"
-    Write-Output "Extension Directory: $ext_dir"
+    Write-Debug "Extension Directory: $ext_dir"
     $global:github = "https://github.com"
-    Write-Output "Github: $github"
+    Write-Debug "Github: $github"
     $global:trunk = "$github/shivammathur/php-builder-windows/releases/download/php$php"
-    Write-Output "Trunk: $trunk"
+    Write-Debug "Trunk: $trunk"
     $global:nightly_version = '8.3'
-    Write-Output "Nightly Version: $nightly_version"
+    Write-Debug "Nightly Version: $nightly_version"
     $global:php_branch = Get-PHPBranch $nightly_version
-    Write-Output "PHP Branch: $php_branch"
-    $global:php_version = Invoke-RestMethod "https://raw.githubusercontent.com/php/php-src/$php_branch/main/php_version.h" | Where-Object { $_  -match 'PHP_VERSION "(.*)"' } | Foreach-Object {$Matches[1]}
-    Write-Output "PHP Version: $php_version"
+    Write-Debug "PHP Branch: $php_branch"
+    $php_header = Invoke-RestMethod "https://raw.githubusercontent.com/php/php-src/$php_branch/main/php_version.h"
+    Write-Debug "PHP Header: $php_header"
+    $match = $php_header | Where-Object { $_  -match 'PHP_VERSION "(.*)"' }
+    Write-Debug "Match: $match"
+    $global:php_version = $match | Foreach-Object {$Matches[1]}
+    Write-Debug "PHP Version: $php_version"
     $global:package_zip = "php-sdk-$sdk_version.zip"
-    Write-Output "Package Zip: $package_zip"
+    Write-Debug "Package Zip: $package_zip"
     $global:tmp_dir = "php-sdk-binary-tools-$sdk_version"
-    Write-Output "Temp Directory: $tmp_dir"
+    Write-Debug "Temp Directory: $tmp_dir"
     if($sdk_version -eq 'master') {
         $global:package_zip = "master.zip"
-        Write-Output "Package Zip: $package_zip"
+        Write-Debug "Package Zip: $package_zip"
         $global:tmp_dir = "php-sdk-binary-tools-master"
-        Write-Output "Temp Directory: $tmp_dir"
+        Write-Debug "Temp Directory: $tmp_dir"
     }
     $global:package_dir = "php-sdk-$sdk_version"
-    Write-Output "Package Directory: $package_dir"
+    Write-Debug "Package Directory: $package_dir"
     $global:url = "$github/php/php-sdk-binary-tools/archive/$package_zip"
-    Write-Output "URL: $url"
+    Write-Debug "URL: $url"
 
     Cleanup $ext_dir $cache_dir
     Get-BuildPackage $package_zip $url $tmp_dir $package_dir
