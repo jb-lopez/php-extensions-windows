@@ -1,9 +1,10 @@
-# jb-lopez/php-extensions-windows
+# Build Windows PHP Extensions
 
-This is a fork of [shivammathur/php-extensions-windows](https://github.com/shivammathur/php-extensions-windows).
-I forked this to add more extensions to the build workflow.
+~This is a fork of [shivammathur/php-extensions-windows](https://github.com/shivammathur/php-extensions-windows).
+I forked this to add more extensions to the build workflow.~
 
-> Build PHP extensions for windows.
+The upstream [php-builder-windows](https://github.com/shivammathur/php-builder-windows "PHP Snapshots") has changed, causing many builds to fail.
+I've removed the references, and this project is no longer a fork of [shivammathur/php-extensions-windows](https://github.com/shivammathur/php-extensions-windows) but still inspired by it.
 
 ## Build Status
 | Status | Upstream Repo |
@@ -16,9 +17,4 @@ I forked this to add more extensions to the build workflow.
 
 ## License
 The code in this project is licensed under the [MIT license](http://choosealicense.com/licenses/mit/).
-Please see the [license file](LICENSE) for more information. This project has multiple [dependencies](#dependencies "Dependencies for this Homebrew tap"). Their licenses can be found in their respective repositories.
-
-## Dependencies
-
-- [php-builder-windows](https://github.com/shivammathur/php-builder-windows "PHP Snapshots")
-- [php-sdk-binary-tools](https://github.com/php/php-sdk-binary-tools "PHP SDK Binary tools")
+Please see the [license file](LICENSE) for more information.

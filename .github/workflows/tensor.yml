@@ -1,56 +1,67 @@
-name: 'Tensor'
+name: "Tensor"
 on:
+  push:
   workflow_dispatch:
   schedule:
-    - cron: '27 9 * * 4'
+    - cron: "27 9 * * 4"
 jobs:
   build:
-    name: build
+    name: Build
     runs-on: windows-2019
     strategy:
       fail-fast: false
       matrix:
-        php: [ '8.0', '8.1' ]
-        ts: [ ts, nts ]
+        version: ["8.0", "8.1", "8.2"]
+        ts: ["ts", "nts"]
+        arch: ["x64"]
+        name: ["tensor"]
+        repo: ["RubixML/Tensor"]
+        enable: ["enable-tensor"]
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-      - name: Build
-        # script parameters $extension $repo $branch $dev_branch $args $sdk_version $vs $arch $ts $php
+      - name: Setup PHP
+        id: setup-php
+        uses: cmb69/setup-php-sdk@v0.7
+        with:
+          version: ${{matrix.version}}
+          arch: ${{matrix.arch}}
+          ts: ${{matrix.ts}}
+      - name: Enable Developer Command Prompt
+        uses: ilammy/msvc-dev-cmd@v1
+        with:
+          arch: ${{matrix.arch}}
+          toolset: ${{steps.setup-php.outputs.toolset}}
+      - name: Get Extension Source
         run: |
-          pwsh scripts/tensor.ps1 tensor RubixML/Tensor master master enable-tensor master vs16 x64 ${{ matrix.ts }} ${{ matrix.php }}
-          $exit_code = $?
-          if(-not($exit_code)) {
-            exit $exit_code
-          }
-      - name: Upload Artifact
+          git clone https://github.com/${{matrix.repo}} \projects\tensor
+      - name: Download OpenBLAS
+        run: |
+          curl -LO https://github.com/xianyi/OpenBLAS/releases/download/v0.3.21/OpenBLAS-0.3.21-x64.zip
+          7z x OpenBLAS-0.3.21-x64.zip -o"\projects\tensor\deps"
+          copy \projects\tensor\deps\bin\libopenblas.dll \projects\tensor\deps\lib\libopenblas.dll
+      - name: Fixes for PHP
+        shell: pwsh
+        run: |
+          $lapack_file = "\projects\tensor\deps\include\lapack.h"
+          (Get-content $lapack_file) | Foreach-Object {$_ -replace "float _Complex", "_C_float_complex"} | Set-Content $lapack_file
+          (Get-content $lapack_file) | Foreach-Object {$_ -replace "double _Complex", "_C_double_complex"} | Set-Content $lapack_file
+      - name: Configure Extension
+        run: |
+          cd \projects\tensor\ext
+          phpize
+          ./configure --${{matrix.enable}} --with-prefix=${{steps.setup-php-sdk.outputs.prefix}}
+      - name: More Fixes for PHP
+        shell: pwsh
+        run: |
+          $makefile_file = "\projects\tensor\ext\Makefile"
+          (Get-content $makefile_file) | Foreach-Object {$_ -replace "bcrypt.lib", "bcrypt.lib \projects\tensor\deps\lib\libopenblas.lib \projects\tensor\deps\lib\libopenblas.dll.a"} | Set-Content $makefile_file
+      - name: Build Extension
+        run: |
+          cd \projects\tensor\ext
+          nmake
+      - name: Upload Extension
         uses: actions/upload-artifact@v3
         with:
-          if-no-files-found: error
-          name: tensor_${{ matrix.ts }}_x64
-          path: tensor
-  release:
-    runs-on: ubuntu-latest
-    needs: build
-    steps:
-      - uses: actions/checkout@v3
-        name: Checkout
-      - run: mkdir ext
-      - uses: actions/download-artifact@v3
-        name: Download Artifacts
-        with:
-          path: ext
-      - name: Release
-        run: |
-          set -x
-          assets=()
-          for asset in ./ext/*/*.dll; do
-            assets+=("$asset")
-          done
-          if ! gh release view Tensor; then
-            gh release create "Tensor" "${assets[@]}" -t "Tensor" -n "Tensor"
-          else
-            gh release upload "Tensor" "${assets[@]}" --clobber
-          fi
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          name: ${{matrix.name}}-${{matrix.version}}-${{matrix.ts}}-${{matrix.arch}}
+          path: /projects/tensor/ext/x64/**/*.dll
