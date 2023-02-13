@@ -65,3 +65,28 @@ jobs:
         with:
           name: ${{matrix.name}}-${{matrix.version}}-${{matrix.ts}}-${{matrix.arch}}
           path: /projects/tensor/ext/x64/**/*.dll
+  release:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - uses: actions/checkout@v3
+        name: Checkout
+      - run: mkdir ext
+      - uses: actions/download-artifact@v3
+        name: Download Artifacts
+        with:
+          path: ext
+      - name: Release
+        run: |
+          set -x
+          assets=()
+          for asset in ./ext/*/*.dll; do
+            assets+=("$asset")
+          done
+          if ! gh release view Tensor; then
+            gh release create "Tensor" "${assets[@]}" -t "Tensor" -n "Tensor"
+          else
+            gh release upload "Tensor" "${assets[@]}" --clobber
+          fi
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
