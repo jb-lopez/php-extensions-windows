@@ -17,6 +17,11 @@ jobs:
         name: ["xdebug"]
         repo: ["xdebug/xdebug"]
         enable: ["with-xdebug"]
+        include:
+          - ts: "ts"
+            release: "Release_TS"
+          - ts: "nts"
+            release: "Release"
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -44,8 +49,7 @@ jobs:
       - name: Package Extension
         run: |
           md .install
-          if exist x64\Release (set prefix=x64\Release) else set prefix=x64\Release_TS
-          copy %prefix%\php_xdebug.dll .install
+          copy ${{matrix.release}}\*.dll .install
           copy ..\deps\bin\* .install
       - name: Upload Extension
         uses: actions/upload-artifact@v3
