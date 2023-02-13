@@ -41,11 +41,17 @@ jobs:
           phpize
           ./configure --${{matrix.enable}} --with-prefix=${{steps.setup-php-sdk.outputs.prefix}}
           nmake
+      - name: Package Extension
+        run: |
+          md .install
+          if exist x64\Release (set prefix=x64\Release) else set prefix=x64\Release_TS
+          copy %prefix%\php_xdebug.dll .install
+          copy ..\deps\bin\* .install
       - name: Upload Extension
         uses: actions/upload-artifact@v3
         with:
           name: ${{matrix.name}}-${{matrix.version}}-${{matrix.ts}}-${{matrix.arch}}
-          path: ext/x64/**/*.dll
+          path: .install
   release:
     runs-on: ubuntu-latest
     needs: build
@@ -61,7 +67,7 @@ jobs:
         run: |
           set -x
           assets=()
-          for asset in ./**/*.dll; do
+          for asset in ./ext/*/*.dll; do
             assets+=("$asset")
           done
           if ! gh release view Trader; then
