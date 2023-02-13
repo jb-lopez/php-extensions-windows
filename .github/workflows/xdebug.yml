@@ -49,7 +49,7 @@ jobs:
       - name: Package Extension
         run: |
           md .install
-          copy ${{matrix.release}}\*.dll .install
+          copy ext\${{matrix.release}}\*.dll .install
           copy ..\deps\bin\* .install
       - name: Upload Extension
         uses: actions/upload-artifact@v3
