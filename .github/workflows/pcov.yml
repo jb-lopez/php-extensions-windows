@@ -61,7 +61,7 @@ jobs:
         run: |
           set -x
           assets=()
-          for asset in ./ext/*/*.dll; do
+          for asset in ./**/*.dll; do
             assets+=("$asset")
           done
           if ! gh release view pCov; then
