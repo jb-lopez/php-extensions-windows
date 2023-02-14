@@ -64,11 +64,6 @@ jobs:
         run: |
           cd \projects\tensor\ext
           nmake
-      - name: Upload Full Build
-        uses: actions/upload-artifact@v3
-        with:
-          name: ${{matrix.name}}-${{matrix.version}}-${{matrix.ts}}-${{matrix.arch}}-full
-          path: .
       - name: Package Extension
         run: |
           md .install
