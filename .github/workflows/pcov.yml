@@ -2,7 +2,7 @@ name: "Pcov"
 on:
   workflow_dispatch:
   schedule:
-    - cron: "27 9 * * 4"
+    - cron: "41 9 * * 4"
 jobs:
   build:
     name: Build
@@ -24,36 +24,84 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+
+      - name: Cache PHP SDK
+        id: cache-php-sdk
+        uses: actions/cache@v3
+        with:
+          path: |
+            php-sdk
+            php-dev
+            php-bin
+          key: setup-php-sdk-${{matrix.version}}-${{matrix.ts}}-${{matrix.arch}}
+
       - name: Setup PHP
+        if: ${{ steps.cache-php-sdk.outputs.cache-hit != 'true' }}
         id: setup-php
         uses: cmb69/setup-php-sdk@v0.7
         with:
           version: ${{matrix.version}}
           arch: ${{matrix.arch}}
           ts: ${{matrix.ts}}
+
+      - name: Compute toolset version
+        shell: pwsh
+        id: toolset
+        run: |
+          $toolsets = @{
+              "vc14" = "14.0"
+          }
+          $dir = vswhere -latest -find "VC\Tools\MSVC"
+          foreach ($toolset in (Get-ChildItem $dir)) {
+              $tsv = "$toolset".split(".")
+              if ((14 -eq $tsv[0]) -and (9 -ge $tsv[1])) {
+                  $toolsets."vc14" = $toolset
+              } elseif ((14 -eq $tsv[0]) -and (19 -ge $tsv[1])) {
+                  $toolsets."vc15" = $toolset
+              } elseif ((14 -eq $tsv[0]) -and (29 -ge $tsv[1])) {
+                  $toolsets."vs16" = $toolset
+              } elseif (14 -eq $tsv[0]) {
+                  $toolsets."vs17" = $toolset
+              }
+          }
+          $toolset = $toolsets."vs16"
+          
+          Add-Content $Env:GITHUB_PATH "$pwd\php-sdk\bin"
+          Add-Content $Env:GITHUB_PATH "$pwd\php-sdk\msys2\usr\bin"
+          Add-Content $Env:GITHUB_PATH "$pwd\php-bin"
+          Add-Content $Env:GITHUB_PATH "$pwd\php-dev"
+          Write-Output "toolset=$toolset" >> $Env:GITHUB_OUTPUT
+          Write-Output "prefix=$pwd\php-bin" >> $Env:GITHUB_OUTPUT
+          Write-Output "vs=vs16" >> $Env:GITHUB_OUTPUT
+
       - name: Enable Developer Command Prompt
         uses: ilammy/msvc-dev-cmd@v1
         with:
           arch: ${{matrix.arch}}
-          toolset: ${{steps.setup-php.outputs.toolset}}
+          toolset: ${{steps.toolset.outputs.toolset}}
+
       - name: Get Extension Source
         run: |
           git clone https://github.com/${{matrix.repo}} ext
+
       - name: Build Extension
         run: |
           cd ext
           phpize
-          ./configure --${{matrix.enable}} --with-prefix=${{steps.setup-php-sdk.outputs.prefix}}
+          ./configure --${{matrix.enable}} --with-prefix=${{steps.toolset.outputs.prefix}}
           nmake
+
       - name: Package Extension
         run: |
           md .install
           copy ext\${{matrix.arch}}\${{matrix.release}}\php_${{matrix.name}}.dll .install\php${{matrix.version}}_${{matrix.ts}}_${{matrix.arch}}_${{matrix.name}}.dll
+
       - name: Upload Extension
         uses: actions/upload-artifact@v3
         with:
           name: ${{matrix.name}}-${{matrix.version}}-${{matrix.ts}}-${{matrix.arch}}
           path: .install
+
   release:
     runs-on: ubuntu-latest
     needs: build
