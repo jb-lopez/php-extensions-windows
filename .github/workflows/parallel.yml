@@ -71,7 +71,6 @@ jobs:
         run: |
           set -x
           assets=()
-          find . | sed -e "s/[^-][^\/]*\// |/g" -e "s/|\([^ ]\)/|-\1/"
           for asset in ./ext/*/*.dll; do
             assets+=("$asset")
           done
