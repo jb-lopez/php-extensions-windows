@@ -50,7 +50,6 @@ jobs:
         run: |
           md .install
           copy ext\${{matrix.arch}}\${{matrix.release}}\php_${{matrix.name}}.dll .install\php${{matrix.version}}_${{matrix.ts}}_${{matrix.arch}}_${{matrix.name}}.dll
-          copy ..\deps\bin\* .install
       - name: Upload Extension
         uses: actions/upload-artifact@v3
         with:
