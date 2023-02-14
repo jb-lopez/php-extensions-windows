@@ -1,6 +1,5 @@
 name: "Tensor"
 on:
-  push:
   workflow_dispatch:
   schedule:
     - cron: "27 9 * * 4"
@@ -65,11 +64,16 @@ jobs:
         run: |
           cd \projects\tensor\ext
           nmake
+      - name: Upload Full Build
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{matrix.name}}-${{matrix.version}}-${{matrix.ts}}-${{matrix.arch}}-full
+          path: .
       - name: Package Extension
         run: |
           md .install
           copy \projects\tensor\ext\${{matrix.arch}}\${{matrix.release}}\php_${{matrix.name}}.dll .install\php${{matrix.version}}_${{matrix.ts}}_${{matrix.arch}}_${{matrix.name}}.dll
-          copy ..\deps\bin\* .install
+          copy \projects\tensor\deps\bin\* .install
       - name: Upload Extension
         uses: actions/upload-artifact@v3
         with:

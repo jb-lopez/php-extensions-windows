@@ -1,6 +1,5 @@
 name: "Parallel"
 on:
-  push:
   workflow_dispatch:
   schedule:
     - cron: "27 9 * * 4"
@@ -41,7 +40,7 @@ jobs:
       - name: Get Parallel Deps
         run: |
           curl -LO https://windows.php.net/downloads/pecl/deps/pthreads-2.11.0-vs16-${{matrix.arch}}.zip
-          7z x pthreads-2.11.0-vs16-${{matrix.arch}}.zip -o"..\deps"
+          7z x pthreads-2.11.0-vs16-${{matrix.arch}}.zip -o".\deps"
       - name: Build Extension
         run: |
           cd ext
@@ -57,7 +56,7 @@ jobs:
         run: |
           md .install
           copy ext\${{matrix.arch}}\${{matrix.release}}\php_${{matrix.name}}.dll .install\php${{matrix.version}}_${{matrix.ts}}_${{matrix.arch}}_${{matrix.name}}.dll
-          copy ..\deps\bin\* .install
+          copy deps\bin\* .install
       - name: Upload Extension
         uses: actions/upload-artifact@v3
         with:

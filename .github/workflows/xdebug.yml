@@ -1,6 +1,5 @@
 name: "Xdebug"
 on:
-  push:
   workflow_dispatch:
   schedule:
     - cron: "27 9 * * 4"
