@@ -46,15 +46,16 @@ jobs:
           phpize
           ./configure --${{matrix.enable}} --with-prefix=${{steps.setup-php-sdk.outputs.prefix}}
           nmake
-      - name: Upload Build
-        uses: actions/upload-artifact@v3
-        with:
-          name: ${{matrix.name}}-${{matrix.version}}-${{matrix.ts}}-${{matrix.arch}}
-          path: .
+      - name: Debug Info
+        shell: pwsh
+        run: |
+          Write-Host "::debug::" $env:GITHUB_WORKSPACE
+          Write-Host pwd
+          Get-ChildItem -Path . -Recurse -Filter *.dll | Select-Object -ExpandProperty FullName | ForEach-Object { Write-Host "::debug::" $_ }
       - name: Package Extension
         run: |
           md .install
-          copy ext\${{matrix.release}}\x64\*.dll .install
+          copy ext\${{matrix.arch}}\${{matrix.release}}\php_${{matrix.name}}.dll .install\php${{matrix.version}}_${{matrix.ts}}_${{matrix.arch}}_${{matrix.name}}.dll
           copy ..\deps\bin\* .install
       - name: Upload Extension
         uses: actions/upload-artifact@v3
