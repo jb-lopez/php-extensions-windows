@@ -44,7 +44,7 @@ jobs:
           curl -LO https://github.com/xianyi/OpenBLAS/releases/download/v0.3.21/OpenBLAS-0.3.21-x64.zip
           7z x OpenBLAS-0.3.21-x64.zip -o"\projects\tensor\deps"
           copy \projects\tensor\deps\bin\libopenblas.dll \projects\tensor\deps\lib\libopenblas.dll
-      - name: Fixes for PHP
+      - name: Fix lapack.h for PHP
         shell: pwsh
         run: |
           $lapack_file = "\projects\tensor\deps\include\lapack.h"
@@ -55,7 +55,7 @@ jobs:
           cd \projects\tensor\ext
           phpize
           ./configure --${{matrix.enable}} --with-prefix=${{steps.setup-php-sdk.outputs.prefix}}
-      - name: More Fixes for PHP
+      - name: Fix Makefile for PHP
         shell: pwsh
         run: |
           $makefile_file = "\projects\tensor\ext\Makefile"
@@ -68,7 +68,6 @@ jobs:
         run: |
           md .install
           copy \projects\tensor\ext\${{matrix.arch}}\${{matrix.release}}\php_${{matrix.name}}.dll .install\php${{matrix.version}}_${{matrix.ts}}_${{matrix.arch}}_${{matrix.name}}.dll
-          copy \projects\tensor\deps\bin\* .install
       - name: Upload Extension
         uses: actions/upload-artifact@v3
         with:
