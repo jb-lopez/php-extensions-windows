@@ -16,7 +16,7 @@ jobs:
         name: ["stats"]
         repo: ["php/pecl-math-stats"]
         enable: ["enable-stats"]
-        release: ["Stats"]
+        extension: ["Stats"]
         include:
           - ts: "ts"
             release: "Release_TS"
@@ -121,10 +121,10 @@ jobs:
           for asset in ./ext/*/*.dll; do
             assets+=("$asset")
           done
-          if ! gh release view ${{matrix.release}}; then
-            gh release create "${{matrix.release}}" "${assets[@]}" -t "${{matrix.release}}" -n "${{matrix.release}}"
+          if ! gh release view ${{matrix.extension}}; then
+            gh release create "${{matrix.extension}}" "${assets[@]}" -t "${{matrix.extension}}" -n "${{matrix.extension}}"
           else
-            gh release upload "${{matrix.release}}" "${assets[@]}" --clobber
+            gh release upload "${{matrix.extension}}" "${assets[@]}" --clobber
           fi
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
