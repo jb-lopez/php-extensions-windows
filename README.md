@@ -9,8 +9,10 @@ I've removed the references, and this project is no longer a fork of [shivammath
 ## Build Status
 | Status | Upstream Repo |
 | --- | ----- |
+| [![Ncurses](https://github.com/jb-lopez/php-extensions-windows/actions/workflows/ncurses.yml/badge.svg)](https://github.com/jb-lopez/php-extensions-windows/actions/workflows/ncurses.yml) | [OOPS-ORG-PHP/mod_ncurses](https://github.com/OOPS-ORG-PHP/mod_ncurses) |
 | [![Parallel](https://github.com/jb-lopez/php-extensions-windows/actions/workflows/parallel.yml/badge.svg)](https://github.com/jb-lopez/php-extensions-windows/actions/workflows/parallel.yml) | [krakjoe/parallel](https://github.com/krakjoe/parallel) |
 | [![Pcov](https://github.com/jb-lopez/php-extensions-windows/actions/workflows/pcov.yml/badge.svg)](https://github.com/jb-lopez/php-extensions-windows/actions/workflows/pcov.yml) | [krakjoe/pcov](https://github.com/krakjoe/pcov) |
+| [![Stats](https://github.com/jb-lopez/php-extensions-windows/actions/workflows/stats.yml/badge.svg)](https://github.com/jb-lopez/php-extensions-windows/actions/workflows/stats.yml) | [php/pecl-math-stats](https://github.com/php/pecl-math-stats) |
 | [![Tensor](https://github.com/jb-lopez/php-extensions-windows/actions/workflows/tensor.yml/badge.svg)](https://github.com/jb-lopez/php-extensions-windows/actions/workflows/tensor.yml) | [RubixML/Tensor](https://github.com/RubixML/Tensor) |
 | [![Trader](https://github.com/jb-lopez/php-extensions-windows/actions/workflows/trader.yml/badge.svg)](https://github.com/jb-lopez/php-extensions-windows/actions/workflows/trader.yml) | [php/pecl-math-trader](https://github.com/php/pecl-math-trader) |
 | [![Xdebug](https://github.com/jb-lopez/php-extensions-windows/actions/workflows/xdebug.yml/badge.svg)](https://github.com/jb-lopez/php-extensions-windows/actions/workflows/xdebug.yml) | [xdebug/xdebug](https://github.com/xdebug/xdebug) |
