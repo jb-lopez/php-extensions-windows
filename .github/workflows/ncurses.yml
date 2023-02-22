@@ -84,15 +84,11 @@ jobs:
         run: |
           git clone https://github.com/${{matrix.repo}} ext
 
-      - name: Get nCurses Deps
-        run: |
-          copy build_deps\ncurses deps
-
       - name: Build Extension
         run: |
           cd ext
           phpize
-          ./configure --${{matrix.enable}} --with-prefix=${{steps.toolset.outputs.prefix}}
+          ./configure --${{matrix.enable}} --with-prefix=${{steps.toolset.outputs.prefix}} --with-extra-includes="..\build_deps\ncurses\include" --with-extra-libs="..\build_deps\ncurses\lib"
           nmake
 
       - name: Package Extension
