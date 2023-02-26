@@ -88,7 +88,7 @@ jobs:
         run: |
           cd ext
           phpize
-          ./configure --${{matrix.enable}} --with-prefix=${{steps.toolset.outputs.prefix}} --with-extra-includes="..\build_deps\ncurses\include" --with-extra-libs="..\build_deps\ncurses\lib"
+          ./configure --${{matrix.enable}} --with-prefix=${{steps.toolset.outputs.prefix}} --with-extra-includes="..\build_deps\${{matrix.name}}\include" --with-extra-libs="..\build_deps\${{matrix.name}}\lib"
           nmake
 
       - name: Package Extension
