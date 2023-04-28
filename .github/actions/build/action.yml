@@ -85,12 +85,15 @@ runs:
         phpize
         ./configure --${{ inputs.enable }} --with-prefix=${{ steps.toolset.outputs.prefix }}  --with-extra-includes="..\build_deps\${{ inputs.name }}\include" --with-extra-libs="..\build_deps\${{ inputs.name }}\lib"
         nmake
+    - name: Package Extension
+      shell: pwsh
+      run: |
+        md install
+        copy ext/${{matrix.arch}}/${{matrix.release}}/php_${{matrix.name}}.dll install/php${{matrix.version}}_${{matrix.ts}}_${{matrix.arch}}_${{matrix.name}}.dll
     - name: Release
       shell: bash
       run: |
         set -x
-        md install
-        copy ext/${{matrix.arch}}/${{matrix.release}}/php_${{matrix.name}}.dll install/php${{matrix.version}}_${{matrix.ts}}_${{matrix.arch}}_${{matrix.name}}.dll
         if ! gh release view ${{ inputs.name }}; then
           gh release create "${{ inputs.name }}" "install/php${{ inputs.version }}_${{ inputs.ts }}_${{ inputs.arch }}_${{ inputs.name }}.dll" -t "${{ inputs.name }}" -n "${{ inputs.name }}"
         else
