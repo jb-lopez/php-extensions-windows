@@ -25,54 +25,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Setup
-        uses: ./.github/workflows/setup
+      - name: Run Builder
+        uses: ./.github/workflows/build
         with:
           version: ${{matrix.version}}
           ts: ${{matrix.ts}}
           arch: ${{matrix.arch}}
           repo: ${{matrix.repo}}
-
-      - name: Build Extension
-        run: |
-          cd ext
-          phpize
-          ./configure --${{matrix.enable}} --with-prefix=${{steps.toolset.outputs.prefix}}
-          nmake
-
-      - name: Package Extension
-        run: |
-          md .install
-          copy ext\${{matrix.arch}}\${{matrix.release}}\php_${{matrix.name}}.dll .install\php${{matrix.version}}_${{matrix.ts}}_${{matrix.arch}}_${{matrix.name}}.dll
-
-      - name: Upload Extension
-        uses: actions/upload-artifact@v3
-        with:
-          name: ${{matrix.name}}-${{matrix.version}}-${{matrix.ts}}-${{matrix.arch}}
-          path: .install
-
-  release:
-    runs-on: ubuntu-latest
-    needs: build
-    steps:
-      - uses: actions/checkout@v3
-        name: Checkout
-      - run: mkdir ext
-      - uses: actions/download-artifact@v3
-        name: Download Artifacts
-        with:
-          path: ext
-      - name: Release
-        run: |
-          set -x
-          assets=()
-          for asset in ./ext/*/*.dll; do
-            assets+=("$asset")
-          done
-          if ! gh release view DS; then
-            gh release create "DS" "${assets[@]}" -t "DS" -n "DS"
-          else
-            gh release upload "DS" "${assets[@]}" --clobber
-          fi
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          enable: ${{matrix.enable}}
