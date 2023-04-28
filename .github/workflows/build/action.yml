@@ -4,25 +4,20 @@ on:
   workflow_call:
     inputs:
       version:
-        description: 'PHP version'
         required: true
         type: string
       ts:
-        description: 'Thread Safe'
         required: true
         type: string
         default: 'nts'
       repo:
-        description: 'Extension repo'
         required: true
         type: string
       arch:
-        description: 'Architecture'
         required: true
         type: string
         default: 'x64'
       enable:
-        description: 'Enabling command line parameter'
         required: true
         type: string
 
@@ -38,16 +33,16 @@ jobs:
             php-sdk
             php-dev
             php-bin
-          key: setup-php-sdk-${{inputs.version}}-${{inputs.ts}}-${{inputs.arch}}
+          key: setup-php-sdk-${{ github.event.inputs.version }}-${{ github.event.inputs.ts }}-${{ github.event.inputs.arch }}
 
       - name: Setup PHP
-        if: ${{steps.cache-php-sdk.outputs.cache-hit != 'true'}}
+        if: ${{ steps.cache-php-sdk.outputs.cache-hit != 'true' }}
         id: setup-php
         uses: cmb69/setup-php-sdk@v0.7
         with:
-          version: ${{inputs.version}}
-          arch: ${{inputs.arch}}
-          ts: ${{inputs.ts}}
+          version: ${{ github.event.inputs.version }}
+          arch: ${{ github.event.inputs.arch }}
+          ts: ${{ github.event.inputs.ts }}
 
       - name: Compute toolset version
         shell: pwsh
@@ -82,27 +77,27 @@ jobs:
       - name: Enable Developer Command Prompt
         uses: ilammy/msvc-dev-cmd@v1
         with:
-          arch: ${{inputs.arch}}
-          toolset: ${{steps.toolset.outputs.toolset}}
+          arch: ${{ github.event.inputs.arch }}
+          toolset: ${{ steps.toolset.outputs.toolset }}
 
       - name: Get Extension Source
         run: |
-          git clone https://github.com/${{inputs.repo}} ext
+          git clone https://github.com/${{ github.event.inputs.repo }} ext
 
       - name: Build Extension
         run: |
           cd ext
           phpize
-          ./configure --${{matrix.enable}} --with-prefix=${{steps.toolset.outputs.prefix}}  --with-extra-includes="..\build_deps\${{matrix.name}}\include" --with-extra-libs="..\build_deps\${{matrix.name}}\lib"
+          ./configure --${{ matrix.enable }} --with-prefix=${{ steps.toolset.outputs.prefix }}  --with-extra-includes="..\build_deps\${{ matrix.name }}\include" --with-extra-libs="..\build_deps\${{ matrix.name }}\lib"
           nmake
 
       - name: Release
         run: |
           set -x
           if ! gh release view DS; then
-            gh release create "DS" ".install\php${{matrix.version}}_${{matrix.ts}}_${{matrix.arch}}_${{matrix.name}}.dll" -t "DS" -n "DS"
+            gh release create "DS" ".install\php${{ matrix.version }}_${{ matrix.ts }}_${{ matrix.arch }}_${{ matrix.name }}.dll" -t "DS" -n "DS"
           else
-            gh release upload "DS" ".install\php${{matrix.version}}_${{matrix.ts}}_${{matrix.arch}}_${{matrix.name}}.dll" --clobber
+            gh release upload "DS" ".install\php${{ matrix.version }}_${{ matrix.ts }}_${{ matrix.arch }}_${{ matrix.name }}.dll" --clobber
           fi
         env:
-          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

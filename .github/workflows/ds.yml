@@ -28,8 +28,8 @@ jobs:
       - name: Run Builder
         uses: ./.github/workflows/build
         with:
-          version: ${{matrix.version}}
-          ts: ${{matrix.ts}}
-          arch: ${{matrix.arch}}
-          repo: ${{matrix.repo}}
-          enable: ${{matrix.enable}}
+          version: ${{ matrix.version }}
+          ts: ${{ matrix.ts }}
+          arch: ${{ matrix.arch }}
+          repo: ${{ matrix.repo }}
+          enable: ${{ matrix.enable }}
