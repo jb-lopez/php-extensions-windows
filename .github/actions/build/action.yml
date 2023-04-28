@@ -86,7 +86,7 @@ runs:
         ./configure --${{ inputs.enable }} --with-prefix=${{ steps.toolset.outputs.prefix }}  --with-extra-includes="..\build_deps\${{ inputs.name }}\include" --with-extra-libs="..\build_deps\${{ inputs.name }}\lib"
         nmake
     - name: Release
-      shell: pwsh
+      shell: cmd
       run: |
         set -x
         if ! gh release view ${{ inputs.name }}; then
