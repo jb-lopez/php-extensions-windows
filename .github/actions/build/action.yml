@@ -75,6 +75,7 @@ runs:
         arch: ${{ inputs.arch }}
         toolset: ${{ steps.toolset.outputs.toolset }}
     - name: Get Extension Source
+      shell: pwsh
       run: |
         git clone https://github.com/${{ inputs.repo }} ext
     - name: Build Extension
@@ -93,5 +94,3 @@ runs:
         else
           gh release upload "${{ inputs.name }}" ".install\php${{ inputs.version }}_${{ inputs.ts }}_${{ inputs.arch }}_${{ inputs.name }}.dll" --clobber
         fi
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

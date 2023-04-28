@@ -34,3 +34,6 @@ jobs:
           repo: ${{ matrix.repo }}
           enable: ${{ matrix.enable }}
           name: ${{ matrix.name }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    
