@@ -16,11 +16,7 @@ jobs:
         name: ["parallel"]
         repo: ["krakjoe/parallel"]
         enable: ["with-parallel"]
-        include:
-          - ts: "ts"
-            release: "Release_TS"
-          - ts: "nts"
-            release: "Release"
+        release: ["Release_TS"]
     steps:
       - name: Checkout
         uses: actions/checkout@v3
