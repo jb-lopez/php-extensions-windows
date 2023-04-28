@@ -33,3 +33,4 @@ jobs:
           arch: ${{ matrix.arch }}
           repo: ${{ matrix.repo }}
           enable: ${{ matrix.enable }}
+          name: ${{ matrix.name }}
