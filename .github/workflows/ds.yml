@@ -23,7 +23,7 @@ jobs:
             release: "Release"
     steps:
       - name: Setup
-        uses: ./.github/workflows/_setup
+        uses: ./.github/workflows/_setup.yml
         with:
           version: ${{matrix.version}}
           ts: ${{matrix.ts}}
