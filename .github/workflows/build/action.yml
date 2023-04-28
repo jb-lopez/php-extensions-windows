@@ -21,6 +21,26 @@ on:
       name:
         required: true
         type: string
+  workflow_call:
+    inputs:
+      version:
+        required: true
+        type: string
+      ts:
+        required: true
+        type: string
+      repo:
+        required: true
+        type: string
+      arch:
+        required: true
+        type: string
+      enable:
+        required: true
+        type: string
+      name:
+        required: true
+        type: string
 
 jobs:
   setup:
