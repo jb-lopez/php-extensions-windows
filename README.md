@@ -9,6 +9,7 @@ I've removed the references, and this project is no longer a fork of [shivammath
 ## Build Status
 | Status | Upstream Repo |
 | --- | ----- |
+| [![DS](https://github.com/jb-lopez/php-extensions-windows/actions/workflows/ds.yml/badge.svg)](https://github.com/jb-lopez/php-extensions-windows/actions/workflows/ds.yml) | [php-ds/ext-ds](https://github.com/php-ds/ext-ds) |
 | [![Ncurses](https://github.com/jb-lopez/php-extensions-windows/actions/workflows/ncurses.yml/badge.svg)](https://github.com/jb-lopez/php-extensions-windows/actions/workflows/ncurses.yml) | [jb-lopez/php_ncurses](https://github.com/jb-lopez/php_ncurses) |
 | [![Parallel](https://github.com/jb-lopez/php-extensions-windows/actions/workflows/parallel.yml/badge.svg)](https://github.com/jb-lopez/php-extensions-windows/actions/workflows/parallel.yml) | [krakjoe/parallel](https://github.com/krakjoe/parallel) |
 | [![Pcov](https://github.com/jb-lopez/php-extensions-windows/actions/workflows/pcov.yml/badge.svg)](https://github.com/jb-lopez/php-extensions-windows/actions/workflows/pcov.yml) | [krakjoe/pcov](https://github.com/krakjoe/pcov) |
