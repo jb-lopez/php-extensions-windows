@@ -2,7 +2,7 @@ name: "Trader"
 on:
   workflow_dispatch:
   schedule:
-    - cron: "27 9 * * 4"
+    - cron: "21 9 * * 4"
 jobs:
   build:
     name: Build
@@ -22,54 +22,17 @@ jobs:
           - ts: "nts"
             release: "Release"
     steps:
-      - name: Setup
-        uses: ./.github/workflows/_setup
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Run Builder
+        uses: ./.github/actions/build
         with:
-          version: ${{matrix.version}}
-          ts: ${{matrix.ts}}
-          arch: ${{matrix.arch}}
-          repo: ${{matrix.repo}}
-
-      - name: Build Extension
-        run: |
-          cd ext
-          phpize
-          ./configure --${{matrix.enable}} --with-prefix=${{steps.toolset.outputs.prefix}}
-          nmake
-
-      - name: Package Extension
-        run: |
-          md .install
-          copy ext\${{matrix.arch}}\${{matrix.release}}\php_${{matrix.name}}.dll .install\php${{matrix.version}}_${{matrix.ts}}_${{matrix.arch}}_${{matrix.name}}.dll
-
-      - name: Upload Extension
-        uses: actions/upload-artifact@v3
-        with:
-          name: ${{matrix.name}}-${{matrix.version}}-${{matrix.ts}}-${{matrix.arch}}
-          path: .install
-
-  release:
-    runs-on: ubuntu-latest
-    needs: build
-    steps:
-      - uses: actions/checkout@v3
-        name: Checkout
-      - run: mkdir ext
-      - uses: actions/download-artifact@v3
-        name: Download Artifacts
-        with:
-          path: ext
-      - name: Release
-        run: |
-          set -x
-          assets=()
-          for asset in ./ext/*/*.dll; do
-            assets+=("$asset")
-          done
-          if ! gh release view Trader; then
-            gh release create "Trader" "${assets[@]}" -t "Trader" -n "Trader"
-          else
-            gh release upload "Trader" "${assets[@]}" --clobber
-          fi
+          version: ${{ matrix.version }}
+          ts: ${{ matrix.ts }}
+          arch: ${{ matrix.arch }}
+          repo: ${{ matrix.repo }}
+          enable: ${{ matrix.enable }}
+          name: ${{ matrix.name }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

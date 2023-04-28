@@ -2,7 +2,7 @@ name: "DS"
 on:
   workflow_dispatch:
   schedule:
-    - cron: "38 9 * * 4"
+    - cron: "3 9 * * 4"
 jobs:
   build:
     name: Build
