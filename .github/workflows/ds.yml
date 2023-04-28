@@ -1,4 +1,4 @@
-name: "Xdebug"
+name: "DS"
 on:
   workflow_dispatch:
   schedule:
