@@ -32,6 +32,7 @@ runs:
           php-dev
           php-bin
         key: setup-php-sdk-${{ inputs.version }}-${{ inputs.ts }}-${{ inputs.arch }}
+
     - name: Setup PHP
       if: ${{ steps.cache-php-sdk.outputs.cache-hit != 'true' }}
       id: setup-php
@@ -40,6 +41,7 @@ runs:
         version: ${{ inputs.version }}
         arch: ${{ inputs.arch }}
         ts: ${{ inputs.ts }}
+
     - name: Compute toolset version
       shell: pwsh
       id: toolset
@@ -69,29 +71,67 @@ runs:
         Write-Output "toolset=$toolset" >> $Env:GITHUB_OUTPUT
         Write-Output "prefix=$pwd\php-bin" >> $Env:GITHUB_OUTPUT
         Write-Output "vs=vs16" >> $Env:GITHUB_OUTPUT
+
     - name: Enable Developer Command Prompt
       uses: ilammy/msvc-dev-cmd@v1
       with:
         arch: ${{ inputs.arch }}
         toolset: ${{ steps.toolset.outputs.toolset }}
+
     - name: Get Extension Source
+      shell: bash
+      run: |
+        git clone https://github.com/${{matrix.repo}} tensor
+        mv tensor/ext ext
+
+    - name: Cache OpenBLAS
+      id: cache-openblas
+      uses: actions/cache@v3
+      with:
+        path: \projects\tensor\deps
+        key: openblas-0.3.21-x64
+
+    - name: Download OpenBLAS
+      shell: pwsh
+      if: ${{ steps.cache-openblas.outputs.cache-hit != 'true' }}
+      run: |
+        curl -LO https://github.com/xianyi/OpenBLAS/releases/download/v0.3.21/OpenBLAS-0.3.21-x64.zip
+        7z x OpenBLAS-0.3.21-x64.zip -o"\projects\tensor\deps"
+        copy \projects\tensor\deps\bin\libopenblas.dll \projects\tensor\deps\lib\libopenblas.dll
+
+    - name: Fix lapack.h for PHP
+      if: ${{ steps.cache-openblas.outputs.cache-hit != 'true' }}
       shell: pwsh
       run: |
-        git clone https://github.com/${{ inputs.repo }} ext
+        $lapack_file = "\projects\tensor\deps\include\lapack.h"
+        (Get-content $lapack_file) | Foreach-Object {$_ -replace "float _Complex", "_C_float_complex"} | Set-Content $lapack_file
+        (Get-content $lapack_file) | Foreach-Object {$_ -replace "double _Complex", "_C_double_complex"} | Set-Content $lapack_file
+
+    - name: Configure Extension
+      shell: pwsh
+      run: |
+        cd \projects\tensor\ext
+        phpize
+        ./configure --${{matrix.enable}} --with-prefix=${{steps.toolset.outputs.prefix}}
+
+    - name: Fix Makefile for PHP
+      shell: pwsh
+      run: |
+        $makefile_file = "\projects\tensor\ext\Makefile"
+        (Get-content $makefile_file) | Foreach-Object {$_ -replace "bcrypt.lib", "bcrypt.lib \projects\tensor\deps\lib\libopenblas.lib \projects\tensor\deps\lib\libopenblas.dll.a"} | Set-Content $makefile_file
+
     - name: Build Extension
       shell: pwsh
       run: |
-        cd ext
-        phpize
-        ./configure --${{ inputs.enable }} --with-prefix=${{ steps.toolset.outputs.prefix }}  --with-extra-includes="..\build_deps\${{ inputs.name }}\include" --with-extra-libs="..\build_deps\${{ inputs.name }}\lib"
-        $makefile_file = "\projects\tensor\ext\Makefile"
-        (Get-content $makefile_file) | Foreach-Object {$_ -replace "bcrypt.lib", "bcrypt.lib \projects\tensor\deps\lib\libopenblas.lib \projects\tensor\deps\lib\libopenblas.dll.a"} | Set-Content $makefile_file
+        cd \projects\tensor\ext
         nmake
+
     - name: Package Extension
       shell: pwsh
       run: |
         md install
         copy ext/${{matrix.arch}}/${{matrix.release}}/php_${{matrix.name}}.dll install/php${{matrix.version}}_${{matrix.ts}}_${{matrix.arch}}_${{matrix.name}}.dll
+
     - name: Release
       shell: bash
       run: |
