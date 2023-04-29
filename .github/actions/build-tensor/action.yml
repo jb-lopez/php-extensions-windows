@@ -129,7 +129,7 @@ runs:
       shell: pwsh
       run: |
         md install
-        copy ext/${{matrix.arch}}/${{matrix.release}}/php_${{matrix.name}}.dll install/php${{matrix.version}}_${{matrix.ts}}_${{matrix.arch}}_${{matrix.name}}.dll
+        copy \projects\tensor\ext\${{matrix.arch}}\${{matrix.release}}\php_${{matrix.name}}.dll install\php${{matrix.version}}_${{matrix.ts}}_${{matrix.arch}}_${{matrix.name}}.dll
 
     - name: Release
       shell: bash
