@@ -112,11 +112,11 @@ jobs:
           phpize
           ./configure --${{matrix.enable}} --with-prefix=${{steps.toolset.outputs.prefix}}
 
-    #   - name: Fix Makefile for PHP
-    #     shell: pwsh
-    #     run: |
-    #       $makefile_file = "\projects\tensor\ext\Makefile"
-    #       (Get-content $makefile_file) | Foreach-Object {$_ -replace "bcrypt.lib", "bcrypt.lib \projects\tensor\deps\lib\libopenblas.lib \projects\tensor\deps\lib\libopenblas.dll.a"} | Set-Content $makefile_file
+      - name: Fix Makefile for PHP
+        shell: pwsh
+        run: |
+          $makefile_file = "\projects\tensor\ext\Makefile"
+          (Get-content $makefile_file) | Foreach-Object {$_ -replace "bcrypt.lib", "bcrypt.lib \projects\tensor\deps\lib\libopenblas.lib \projects\tensor\deps\lib\libopenblas.dll.a"} | Set-Content $makefile_file
 
       - name: Build Extension
         run: |
