@@ -79,10 +79,9 @@ runs:
         toolset: ${{ steps.toolset.outputs.toolset }}
 
     - name: Get Extension Source
-      shell: bash
+      shell: pwsh
       run: |
-        git clone https://github.com/${{matrix.repo}} tensor
-        mv tensor/ext ext
+        git clone https://github.com/${{matrix.repo}} \projects\tensor
 
     - name: Cache OpenBLAS
       id: cache-openblas
