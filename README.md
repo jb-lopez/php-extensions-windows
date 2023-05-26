@@ -3,7 +3,7 @@
 ~This is a fork of [shivammathur/php-extensions-windows](https://github.com/shivammathur/php-extensions-windows).
 I forked this to add more extensions to the build workflow.~
 
-The upstream [php-builder-windows](https://github.com/shivammathur/php-builder-windows "PHP Snapshots") has changed, causing many builds to fail.
+The upstream [shivammathur/php-builder-windows](https://github.com/shivammathur/php-builder-windows "PHP Snapshots") has changed, causing many builds to fail.
 I've removed the references, and this project is no longer a fork of [shivammathur/php-extensions-windows](https://github.com/shivammathur/php-extensions-windows) but still inspired by it.
 
 ## Build Status

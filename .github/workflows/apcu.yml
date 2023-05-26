@@ -1,0 +1,38 @@
+name: "Pcov"
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "12 9 * * 4"
+jobs:
+  build:
+    name: Build
+    runs-on: windows-2019
+    strategy:
+      fail-fast: false
+      matrix:
+        version: ["8.0", "8.1", "8.2"]
+        ts: ["ts", "nts"]
+        arch: ["x64"]
+        name: ["apcu"]
+        repo: ["krakjoe/apcu"]
+        enable: ["enable-apcu"]
+        include:
+          - ts: "ts"
+            release: "Release_TS"
+          - ts: "nts"
+            release: "Release"
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Run Builder
+        uses: ./.github/actions/build
+        with:
+          version: ${{ matrix.version }}
+          ts: ${{ matrix.ts }}
+          arch: ${{ matrix.arch }}
+          repo: ${{ matrix.repo }}
+          enable: ${{ matrix.enable }}
+          name: ${{ matrix.name }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
