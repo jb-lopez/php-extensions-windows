@@ -1,4 +1,4 @@
-name: "Pcov"
+name: "AWS-CRT"
 on:
   workflow_dispatch:
   schedule:

@@ -1,4 +1,4 @@
-name: "Pcov"
+name: "PSR"
 on:
   workflow_dispatch:
   schedule:

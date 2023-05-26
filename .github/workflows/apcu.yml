@@ -1,4 +1,4 @@
-name: "Pcov"
+name: "APCU"
 on:
   workflow_dispatch:
   schedule:
