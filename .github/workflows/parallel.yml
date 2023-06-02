@@ -2,7 +2,7 @@ name: "Parallel"
 on:
   workflow_dispatch:
   schedule:
-    - cron: "9 9 * * 4"
+    - cron: "21 9 * * 4"
 jobs:
   build:
     name: Build

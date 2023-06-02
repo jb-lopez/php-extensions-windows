@@ -75,7 +75,7 @@ runs:
     - name: Get Extension Source
       shell: pwsh
       run: |
-        git clone https://github.com/${{ inputs.repo }} ext
+        git clone --recursive https://github.com/${{ inputs.repo }} ext
     - name: Build Extension
       shell: pwsh
       run: |

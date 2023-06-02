@@ -2,7 +2,7 @@ name: "nCurses"
 on:
   workflow_dispatch:
   schedule:
-    - cron: "6 9 * * 4"
+    - cron: "18 9 * * 4"
 jobs:
   build:
     name: Build

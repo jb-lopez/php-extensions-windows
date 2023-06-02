@@ -2,7 +2,7 @@ name: "Xdebug"
 on:
   workflow_dispatch:
   schedule:
-    - cron: "24 9 * * 4"
+    - cron: "45 9 * * 4"
 jobs:
   build:
     name: Build

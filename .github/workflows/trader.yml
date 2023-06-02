@@ -2,7 +2,7 @@ name: "Trader"
 on:
   workflow_dispatch:
   schedule:
-    - cron: "21 9 * * 4"
+    - cron: "39 9 * * 4"
 jobs:
   build:
     name: Build

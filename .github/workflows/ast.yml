@@ -2,7 +2,7 @@ name: "AST"
 on:
   workflow_dispatch:
   schedule:
-    - cron: "12 9 * * 4"
+    - cron: "6 9 * * 4"
 jobs:
   build:
     name: Build

@@ -2,7 +2,7 @@ name: "Tensor"
 on:
   workflow_dispatch:
   schedule:
-    - cron: "3 9 * * 4"
+    - cron: "36 9 * * 4"
 jobs:
   build:
     name: Build

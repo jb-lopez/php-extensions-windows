@@ -81,7 +81,7 @@ runs:
     - name: Get Extension Source
       shell: pwsh
       run: |
-        git clone https://github.com/${{matrix.repo}} \projects\tensor
+        git clone --recursive https://github.com/${{matrix.repo}} \projects\tensor
 
     - name: Cache OpenBLAS
       id: cache-openblas
