@@ -40,15 +40,15 @@ Some of them need dependencies to be installed first, but those dependencies are
 ### Extensions that need work or deps to build
 | ✅ | Downloads | Extension | Info |
 | --- | --- | --- | --- |
-| 🟨 |     2349 | [fann](https://github.com/bukka/php-fann)                         | needs git submodules; Checking for fann.h ...  <not found> |
-| 🟨 |     2055 | [sdl](https://github.com/Ponup/php-sdl)                           | Checking for library SDL2.lib ... <not found> |
-| 🟨 |        0 | [wxphp](https://github.com/wxphp/wxphp)                           | Checking for library wxmsw30u_richtext.lib ... <not found> |
+| 🟨 |     2349 | [fann](https://github.com/bukka/php-fann)                         | needs git submodules; Checking for fann.h ...  &lt;not found&gt; |
+| 🟨 |     2055 | [sdl](https://github.com/Ponup/php-sdl)                           | Checking for library SDL2.lib ... &lt;not found&gt; |
+| 🟨 |        0 | [wxphp](https://github.com/wxphp/wxphp)                           | Checking for library wxmsw30u_richtext.lib ... &lt;not found&gt; |
 | 🟨 |        0 | [v8js](https://github.com/phpv8/v8js)                             | error C2429: language feature 'terse static assert' requires compiler flag '/std:c++17' |
-| 🟨 |        0 | [ui](https://github.com/krakjoe/ui)                               | Checking for ui.h ...  <not found> |
-| 🟨 |        0 | [tools-svn](https://github.com/php/pecl-tools-svn)                | Checking for library libsvn_client-1.lib ... <not found> |
-| 🟨 |        0 | [text-pdflib](https://github.com/php/pecl-text-pdflib)            | Checking for pdflib.h ...  <not found> |
-| 🟨 |        0 | [pdflib](https://github.com/php/pecl-text-pdflib)                 | Checking for pdflib.h ...  <not found> |
-| 🟨 |        0 | [lua](https://github.com/laruence/php-lua)                        | Checking for library liblua.lib;lua.lib;lua51.lib ... <not found> |
+| 🟨 |        0 | [ui](https://github.com/krakjoe/ui)                               | Checking for ui.h ...  &lt;not found&gt; |
+| 🟨 |        0 | [tools-svn](https://github.com/php/pecl-tools-svn)                | Checking for library libsvn_client-1.lib ... &lt;not found&gt; |
+| 🟨 |        0 | [text-pdflib](https://github.com/php/pecl-text-pdflib)            | Checking for pdflib.h ...  &lt;not found&gt; |
+| 🟨 |        0 | [pdflib](https://github.com/php/pecl-text-pdflib)                 | Checking for pdflib.h ...  &lt;not found&gt; |
+| 🟨 |        0 | [lua](https://github.com/laruence/php-lua)                        | Checking for library liblua.lib;lua.lib;lua51.lib ... &lt;not found&gt; |
 
 ### Not compatible with PHP 8 on Windows without major changes
 | ✅ | Downloads | Extension | Info |
