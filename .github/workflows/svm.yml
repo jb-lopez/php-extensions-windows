@@ -2,7 +2,7 @@ name: "LibSVM"
 on:
   workflow_dispatch:
   schedule:
-    - cron: "33 9 * * 4"
+    - cron: "45 1 * * 4"
 jobs:
   build:
     name: Build

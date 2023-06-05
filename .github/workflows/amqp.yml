@@ -2,7 +2,7 @@ name: "AMQP"
 on:
   workflow_dispatch:
   schedule:
-    - cron: "24 9 * * 4"
+    - cron: "5 0 * * 4"
 jobs:
   build:
     name: Build

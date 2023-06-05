@@ -2,7 +2,7 @@ name: "YAML"
 on:
   workflow_dispatch:
   schedule:
-    - cron: "24 9 * * 4"
+    - cron: "15 2 * * 4"
 jobs:
   build:
     name: Build

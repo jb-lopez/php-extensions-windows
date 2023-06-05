@@ -2,7 +2,7 @@ name: "SSH2"
 on:
   workflow_dispatch:
   schedule:
-    - cron: "24 9 * * 4"
+    - cron: "35 1 * * 4"
 jobs:
   build:
     name: Build

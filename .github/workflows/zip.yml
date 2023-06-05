@@ -2,7 +2,7 @@ name: "Zip"
 on:
   workflow_dispatch:
   schedule:
-    - cron: "24 9 * * 4"
+    - cron: "20 2 * * 4"
 jobs:
   build:
     name: Build

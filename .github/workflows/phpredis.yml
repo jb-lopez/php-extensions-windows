@@ -2,7 +2,7 @@ name: "Redis"
 on:
   workflow_dispatch:
   schedule:
-    - cron: "9 9 * * 4"
+    - cron: "20 1 * * 4"
 jobs:
   build:
     name: Build

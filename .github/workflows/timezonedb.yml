@@ -2,7 +2,7 @@ name: "TimezoneDB"
 on:
   workflow_dispatch:
   schedule:
-    - cron: "24 9 * * 4"
+    - cron: "55 1 * * 4"
 jobs:
   build:
     name: Build

@@ -2,7 +2,7 @@ name: "UOPZ"
 on:
   workflow_dispatch:
   schedule:
-    - cron: "42 9 * * 4"
+    - cron: "5 2 * * 4"
 jobs:
   build:
     name: Build

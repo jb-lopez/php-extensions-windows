@@ -2,7 +2,7 @@ name: "Statistical Computation"
 on:
   workflow_dispatch:
   schedule:
-    - cron: "30 9 * * 4"
+    - cron: "40 1 * * 4"
 jobs:
   build:
     name: Build
