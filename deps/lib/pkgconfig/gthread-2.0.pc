@@ -1,0 +1,11 @@
+prefix=D:/a/winlib-builder/winlib-builder/vs16/x64
+exec_prefix=${prefix}
+libdir=${prefix}/lib
+includedir=${prefix}/include
+
+Name: GThread
+Description: Thread support for GLib
+Requires: glib-2.0
+Version: 2.53.3
+Libs: -L${libdir} -lgthread-2.0 
+Cflags: 

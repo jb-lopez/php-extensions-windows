@@ -82,7 +82,7 @@ runs:
         cd ext
         phpize
         ./configure --help
-        ./configure --${{ inputs.enable }} --with-prefix=${{ steps.toolset.outputs.prefix }} --with-extra-includes=..\php-dev\include --with-extra-includes="..\build_deps\${{ inputs.name }}\include" --with-extra-libs=..\php-dev\lib --with-extra-libs="..\build_deps\${{ inputs.name }}\lib"
+        ./configure --${{ inputs.enable }} --with-prefix=${{ steps.toolset.outputs.prefix }} --with-extra-includes=..\php-dev\include --with-extra-includes="..\deps\include" --with-extra-libs=..\php-dev\lib --with-extra-libs="..\deps\lib"
         nmake
     - name: Package Extension
       shell: pwsh
