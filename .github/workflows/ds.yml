@@ -1,4 +1,4 @@
-name: "DS"
+name: "Data Structures"
 on:
   workflow_dispatch:
   schedule:

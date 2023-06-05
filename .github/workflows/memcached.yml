@@ -1,4 +1,4 @@
-name: "memcached"
+name: "Memcached"
 on:
   workflow_dispatch:
   schedule:

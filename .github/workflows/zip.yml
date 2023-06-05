@@ -1,4 +1,4 @@
-name: "zip"
+name: "Zip"
 on:
   workflow_dispatch:
   schedule:

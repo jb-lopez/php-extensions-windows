@@ -1,4 +1,4 @@
-name: "ssh2"
+name: "SSH2"
 on:
   workflow_dispatch:
   schedule:

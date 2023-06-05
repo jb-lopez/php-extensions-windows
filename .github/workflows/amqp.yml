@@ -1,4 +1,4 @@
-name: "amqp"
+name: "AMQP"
 on:
   workflow_dispatch:
   schedule:

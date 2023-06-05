@@ -1,4 +1,4 @@
-name: "rdkafka"
+name: "Kafka"
 on:
   workflow_dispatch:
   schedule:
