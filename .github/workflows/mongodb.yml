@@ -13,9 +13,9 @@ jobs:
         version: ["8.0", "8.1", "8.2"]
         ts: ["ts", "nts"]
         arch: ["x64"]
-        name: ["phpredis"]
+        name: ["mongodb"]
         repo: ["mongodb/mongo-php-driver"]
-        enable: ["enable-redis"]
+        enable: ["enable-mongodb"]
         include:
           - ts: "ts"
             release: "Release_TS"

@@ -15,7 +15,7 @@ jobs:
         arch: ["x64"]
         name: ["zip"]
         repo: ["pierrejoye/php_zip"]
-        enable: ["with-zip"]
+        enable: ["enable-zip"]
         include:
           - ts: "ts"
             release: "Release_TS"

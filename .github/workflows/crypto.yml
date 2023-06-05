@@ -15,7 +15,7 @@ jobs:
         arch: ["x64"]
         name: ["crypto"]
         repo: ["bukka/php-crypto"]
-        enable: ["enable-crypto"]
+        enable: ["with-crypto"]
         include:
           - ts: "ts"
             release: "Release_TS"

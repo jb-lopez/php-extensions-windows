@@ -13,7 +13,7 @@ jobs:
         version: ["8.0", "8.1", "8.2"]
         ts: ["ts", "nts"]
         arch: ["x64"]
-        name: ["timezonedb"]
+        name: ["memcached"]
         repo: ["php-memcached-dev/php-memcached"]
         enable: ["enable-memcached"]
         include:
