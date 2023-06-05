@@ -1,2 +1,5 @@
 # Override my system git config which ignores library files.
-!build_deps/**/*
+!*
+.idea
+.vscode
+*docker*
