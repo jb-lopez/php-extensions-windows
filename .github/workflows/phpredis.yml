@@ -15,7 +15,7 @@ jobs:
         arch: ["x64"]
         name: ["phpredis"]
         repo: ["phpredis/phpredis"]
-        enable: ["enable-phpredis"]
+        enable: ["enable-redis"]
         include:
           - ts: "ts"
             release: "Release_TS"
