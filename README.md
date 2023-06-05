@@ -9,7 +9,6 @@ I've removed the references, and this project is no longer a fork of [shivammath
 ## Build Status
 | Status | Upstream Repo |
 | --- | ----- |
-
 | [![AMQP](https://github.com/jb-lopez/php-extensions-windows/actions/workflows/amqp.yml/badge.svg)](https://github.com/jb-lopez/php-extensions-windows/releases/tag/amqp) | [php-amqp/php-amqp](https://github.com/php-amqp/php-amqp) |
 | [![APCU](https://github.com/jb-lopez/php-extensions-windows/actions/workflows/apcu.yml/badge.svg)](https://github.com/jb-lopez/php-extensions-windows/releases/tag/apcu) | [krakjoe/apcu](https://github.com/krakjoe/apcu) |
 | [![AST](https://github.com/jb-lopez/php-extensions-windows/actions/workflows/ast.yml/badge.svg)](https://github.com/jb-lopez/php-extensions-windows/releases/tag/ast) | [nikic/php-ast](https://github.com/nikic/php-ast) |
