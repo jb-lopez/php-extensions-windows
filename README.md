@@ -28,3 +28,6 @@ I've removed the references, and this project is no longer a fork of [shivammath
 ## License
 The code in this project is licensed under the [MIT license](http://choosealicense.com/licenses/mit/).
 Please see the [license file](LICENSE) for more information.
+
+### License of the built extensions
+The built extensions are licensed under their own license. Please refer to the respective extension's repository for more information.
