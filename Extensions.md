@@ -8,58 +8,57 @@ These extensions successfully build with the default configuration.
 Some of them need dependencies to be installed first, but those dependencies are available on the [PHP dependency](https://windows.php.net/downloads/php-sdk/deps/vs16/x64/) or [PECL dependency](https://windows.php.net/downloads/pecl/deps/) site.
 | ✅ | Downloads | Extension | Info |
 | --- | --- | --- | --- |
-| 🟩 | 22336340 | [imagick](https://github.com/Imagick/imagick)                     | --with-imagick |
-| 🟩 | 17693007 | [phpredis](https://github.com/phpredis/phpredis)                  | --enable-redis; needs git submodules |
-| 🟩 | 15833735 | [xdebug](https://github.com/xdebug/xdebug)                        | --with-xdebug |
-| 🟩 |  7859019 | [APCu](https://github.com/krakjoe/apcu)                           | --enable-apcu |
-| 🟩 |  5809169 | [pcov](https://github.com/krakjoe/pcov)                           | --enable-pcov |
-| 🟩 |  4806666 | [mongodb](https://github.com/mongodb/mongo-php-driver)            | --enable-mongodb; needs git submodules |
-| 🟩 |  4400488 | [timezonedb](https://github.com/php/pecl-datetime-timezonedb)     | --enable-timezonedb |
-| 🟩 |  3203562 | [igbinary](https://github.com/igbinary/igbinary)                  | --enable-igbinary |
-| 🟩 |  2928558 | [memcached](https://github.com/php-memcached-dev/php-memcached)   | --enable-memcached |
-| 🟩 |  2554552 | [amqp](https://github.com/php-amqp/php-amqp)                      | --with-amqp |
-| 🟩 |  2186443 | [rdkafka](https://github.com/arnaud-lb/php-rdkafka)               | --with-rdkafka |
-| 🟩 |  1409511 | [mcrypt](https://github.com/php/pecl-encryption-mcrypt)           | --with-mcrypt |
-| 🟩 |  1368125 | [ssh2](https://github.com/php/pecl-networking-ssh2)               | --with-ssh2 |
-| 🟩 |  1135121 | [yaml](https://github.com/php/pecl-file_formats-yaml)             | --with-yaml |
-| 🟩 |   782249 | [zip](https://github.com/pierrejoye/php_zip)                      | --enable-zip |
-| 🟩 |   469252 | [ast](https://github.com/nikic/php-ast)                           | --enable-ast |
-| 🟩 |   285701 | [psr](https://github.com/jbboehr/php-psr)                         | --enable-psr |
-| 🟩 |   232298 | [uopz](https://github.com/krakjoe/uopz)                           | --enable-uopz |
-| 🟩 |   203726 | [ds](https://github.com/php-ds/ext-ds)                            | --enable-ds |
-| 🟩 |    96894 | [trader](https://github.com/php/pecl-math-trader)                 | --enable-trader |
-| 🟩 |    33035 | [crypto](https://github.com/bukka/php-crypto)                     | --with-crypto; needs git submodules |
-| 🟩 |    42424 | [geospatial](https://github.com/php-geospatial/geospatial)        | --enable-geospatial |
-| 🟩 |    12787 | [parallel](https://github.com/krakjoe/parallel)                   | --with-parallel |
-| 🟩 |    12440 | [Tensor](https://github.com/RubixML/Tensor)                       | --enable-tensor |
-| 🟩 |     4191 | [awscrt](https://github.com/awslabs/aws-crt-php)                  | --enable-awscrt |
-| 🟩 |        0 | [svm](https://github.com/ianbarber/php-svm)                       | --with-svm |
-| 🟩 |        0 | [stats](https://github.com/php/pecl-math-stats)                   | --enable-stats |
-| 🟩 |        0 | [ncurses](https://github.com/jb-lopez/php_ncurses)                | --with-ncurses |
+| 🟩 | 22336340 | [imagick](https://github.com/Imagick/imagick)                     | `--with-imagick` |
+| 🟩 | 17693007 | [phpredis](https://github.com/phpredis/phpredis)                  | `--enable-redis`; needs git submodules |
+| 🟩 | 15833735 | [xdebug](https://github.com/xdebug/xdebug)                        | `--with-xdebug` |
+| 🟩 |  7859019 | [APCu](https://github.com/krakjoe/apcu)                           | `--enable-apcu` |
+| 🟩 |  5809169 | [pcov](https://github.com/krakjoe/pcov)                           | `--enable-pcov` |
+| 🟩 |  4806666 | [mongodb](https://github.com/mongodb/mongo-php-driver)            | `--enable-mongodb`; needs git submodules |
+| 🟩 |  4400488 | [timezonedb](https://github.com/php/pecl-datetime-timezonedb)     | `--enable-timezonedb` |
+| 🟩 |  3203562 | [igbinary](https://github.com/igbinary/igbinary)                  | `--enable-igbinary` |
+| 🟩 |  2928558 | [memcached](https://github.com/php-memcached-dev/php-memcached)   | `--enable-memcached` |
+| 🟩 |  2554552 | [amqp](https://github.com/php-amqp/php-amqp)                      | `--with-amqp` |
+| 🟩 |  2186443 | [rdkafka](https://github.com/arnaud-lb/php-rdkafka)               | `--with-rdkafka` |
+| 🟩 |  1409511 | [mcrypt](https://github.com/php/pecl-encryption-mcrypt)           | `--with-mcrypt` |
+| 🟩 |  1368125 | [ssh2](https://github.com/php/pecl-networking-ssh2)               | `--with-ssh2` |
+| 🟩 |  1135121 | [yaml](https://github.com/php/pecl-file_formats-yaml)             | `--with-yaml` |
+| 🟩 |   782249 | [zip](https://github.com/pierrejoye/php_zip)                      | `--enable-zip` |
+| 🟩 |   469252 | [ast](https://github.com/nikic/php-ast)                           | `--enable-ast` |
+| 🟩 |   285701 | [psr](https://github.com/jbboehr/php-psr)                         | `--enable-psr` |
+| 🟩 |   232298 | [uopz](https://github.com/krakjoe/uopz)                           | `--enable-uopz` |
+| 🟩 |   203726 | [ds](https://github.com/php-ds/ext-ds)                            | `--enable-ds` |
+| 🟩 |    96894 | [trader](https://github.com/php/pecl-math-trader)                 | `--enable-trader` |
+| 🟩 |    33035 | [crypto](https://github.com/bukka/php-crypto)                     | `--with-crypto`; needs git submodules |
+| 🟩 |    42424 | [geospatial](https://github.com/php-geospatial/geospatial)        | `--enable-geospatial` |
+| 🟩 |    12787 | [parallel](https://github.com/krakjoe/parallel)                   | `--with-parallel` |
+| 🟩 |    12440 | [Tensor](https://github.com/RubixML/Tensor)                       | `--enable-tensor` |
+| 🟩 |     4191 | [awscrt](https://github.com/awslabs/aws-crt-php)                  | `--enable-awscrt` |
+| 🟩 |     2349 | [fann](https://github.com/bukka/php-fann)                         | `--with-fann`; needs git submodules |
+| 🟩 |        0 | [svm](https://github.com/ianbarber/php-svm)                       | `--with-svm` |
+| 🟩 |        0 | [stats](https://github.com/php/pecl-math-stats)                   | `--enable-stats` |
+| 🟩 |        0 | [ncurses](https://github.com/jb-lopez/php_ncurses)                | `--with-ncurses` |
 
 ### Extensions that need work or deps to build
 | ✅ | Downloads | Extension | Info |
 | --- | --- | --- | --- |
-| 🟨 |     2349 | [fann](https://github.com/bukka/php-fann)                         | needs git submodules; Checking for fann.h ...  &lt;not found&gt; |
-| 🟨 |     2055 | [sdl](https://github.com/Ponup/php-sdl)                           | Checking for library SDL2.lib ... &lt;not found&gt; |
-| 🟨 |        0 | [wxphp](https://github.com/wxphp/wxphp)                           | Checking for library wxmsw30u_richtext.lib ... &lt;not found&gt; |
-| 🟨 |        0 | [v8js](https://github.com/phpv8/v8js)                             | error C2429: language feature 'terse static assert' requires compiler flag '/std:c++17' |
-| 🟨 |        0 | [ui](https://github.com/krakjoe/ui)                               | Checking for ui.h ...  &lt;not found&gt; |
-| 🟨 |        0 | [tools-svn](https://github.com/php/pecl-tools-svn)                | Checking for library libsvn_client-1.lib ... &lt;not found&gt; |
-| 🟨 |        0 | [text-pdflib](https://github.com/php/pecl-text-pdflib)            | Checking for pdflib.h ...  &lt;not found&gt; |
-| 🟨 |        0 | [pdflib](https://github.com/php/pecl-text-pdflib)                 | Checking for pdflib.h ...  &lt;not found&gt; |
-| 🟨 |        0 | [lua](https://github.com/laruence/php-lua)                        | Checking for library liblua.lib;lua.lib;lua51.lib ... &lt;not found&gt; |
+| 🟨 |     2055 | [sdl](https://github.com/Ponup/php-sdl)                           | Checking for library SDL2.lib ... **not found** |
+| 🟨 |        0 | [svn](https://github.com/php/pecl-tools-svn)                      | Checking for library libsvn_client-1.lib ... **not found** |
+| 🟨 |        0 | [pdflib](https://github.com/php/pecl-text-pdflib)                 | Checking for pdflib.h ...  **not found** |
 
 ### Not compatible with PHP 8 on Windows without major changes
 | ✅ | Downloads | Extension | Info |
 | --- | --- | --- | --- |
-| 🟥 |  1057318 | [gnupg](https://github.com/php-gnupg/php-gnupg)                   | No config.w32 file. Not ready for Windows. |
-| 🟥 |   280841 | [decimal](https://github.com/php-decimal/ext-decimal)             | Syntax errors. Not ready for PHP8 or VS16? |
+| 🟥 |  1057318 | [gnupg](https://github.com/php-gnupg/php-gnupg)                   | No config.w32 file. **Not ready for Windows.** |
+| 🟥 |   280841 | [decimal](https://github.com/php-decimal/ext-decimal)             | Syntax errors. **Not ready for PHP8 or VS16?** |
 | 🟥 |   263514 | [xmlrpc](http://git.php.net/?p=pecl/networking/xmlrpc.git)        | Unmaintained. |
-| 🟥 |    91154 | [couchbase](https://github.com/couchbase/php-couchbase)           | Linker errors. Not ready for PHP8 or VS16? |
-| 🟥 |        0 | [sandbox](https://github.com/krakjoe/sandbox)                     | error C2065: 'zend_disable_function': undeclared identifier. |
-| 🟥 |        0 | [operator](https://github.com/php/pecl-php-operator)              | Syntax errors. Not ready for PHP8 or VS16? |
-| 🟥 |        0 | [cmark](https://github.com/krakjoe/cmark)                         | Syntax errors. Not ready for PHP8 or VS16? |
+| 🟥 |    91154 | [couchbase](https://github.com/couchbase/php-couchbase)           | Linker errors. **Not ready for PHP8 or VS16?** |
+| 🟥 |        0 | [cmark](https://github.com/krakjoe/cmark)                         | Syntax errors. **Not ready for PHP8 or VS16?** |
+| 🟥 |        0 | [operator](https://github.com/php/pecl-php-operator)              | Syntax errors. **Not ready for PHP8 or VS16?** |
+| 🟥 |        0 | [lua](https://github.com/laruence/php-lua)                        | Compile errors. **Not ready for PHP8 or VS16?** |
+| 🟥 |        0 | [sandbox](https://github.com/krakjoe/sandbox)                     | `--enable-sandbox`; TS only; **Not ready for PHP8 or VS16?** |
+| 🟥 |        0 | [ui](https://github.com/krakjoe/ui)                               | `--with-ui`; TS only; **Not ready for PHP8 or VS16?** |
+| 🟥 |        0 | [v8js](https://github.com/phpv8/v8js)                             | `--with-v8js`; **Not ready for PHP8 or VS16?** |
+| 🟥 |        0 | [wxphp](https://github.com/wxphp/wxphp)                           | `--with-wxwidgets` Syntax errors. **Not ready for PHP8 or VS16?** |
 
 ## Popular Downloads
 
