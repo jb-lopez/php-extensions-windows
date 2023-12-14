@@ -10,7 +10,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        version: ["8.0", "8.1", "8.2"]
+        version: ["8.0", "8.1", "8.2", "8.3"]
         ts: ["ts", "nts"]
         arch: ["x64"]
         name: ["redis"]
