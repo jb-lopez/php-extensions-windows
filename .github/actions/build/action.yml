@@ -35,7 +35,7 @@ runs:
     - name: Setup PHP
       if: ${{ steps.cache-php-sdk.outputs.cache-hit != 'true' }}
       id: setup-php
-      uses: cmb69/setup-php-sdk@v0.7
+      uses: omars44/setup-php-sdk@master
       with:
         version: ${{ inputs.version }}
         arch: ${{ inputs.arch }}
