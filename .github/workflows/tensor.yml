@@ -10,7 +10,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        version: ["8.2", "8.3"]
+        version: ["8.2"]
         ts: ["ts", "nts"]
         arch: ["x64"]
         name: ["tensor"]
@@ -36,4 +36,3 @@ jobs:
           name: ${{ matrix.name }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-

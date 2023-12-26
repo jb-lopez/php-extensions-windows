@@ -1,7 +1,7 @@
 <?php
 
 $workflowDirectory = __DIR__ . '/.github/workflows';
-define('WORKFLOW_STAGGER_OFFSET_MINUTES', 5);
+const WORKFLOW_STAGGER_OFFSET_MINUTES = 5;
 
 $workflowDay = 4;
 $workflowHour = 0;
@@ -25,9 +25,8 @@ foreach ($workflowFiles as $workflowFile) {
     }
     $workflowContents = file_get_contents($workflowDirectory . '/' . $workflowFile);
     $workflowContents = preg_replace('/- cron: "\d+ \d+ \* \* \d+"/', '- cron: "' . $workflowMinute . ' ' . $workflowHour . ' * * ' . $workflowDay . '"', $workflowContents, 1, $count);    if ($count !== 1) {
-        throw new Exception('Failed to replace cron in ' . $workflowFile);
+        throw new \RuntimeException('Failed to replace cron in ' . $workflowFile);
     }
     file_put_contents($workflowDirectory . '/' . $workflowFile, $workflowContents);
 
 }
-
